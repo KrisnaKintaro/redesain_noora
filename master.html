@@ -57,12 +57,17 @@
         fetch("component/home/program_dan_materi.html").then((res) =>
           res.text(),
         ),
+        fetch("component/home/statistik_dan_status_pendaftaran.html").then(
+          (res) => res.text(),
+        ),
       ])
-        .then(([navData, welcomeData, programData]) => {
+        .then(([navData, welcomeData, programData, statistikData]) => {
           document.getElementById("navbar-container").innerHTML = navData;
           document.getElementById("welcome-container").innerHTML = welcomeData;
           document.getElementById("program-materi-container").innerHTML =
             programData;
+          document.getElementById("statistik-container").innerHTML =
+            statistikData;
 
           initNavbarLogic();
           initHomeLogic();
@@ -482,6 +487,77 @@
           // Render data Ujian
           renderTasks("Ujian");
         });
+
+        // LOGIC DATA STATISTIK & STATUS PENDAFTARAN
+        const valTotalProgram = document.getElementById("val-total-program");
+        const valTerdaftarProgram = document.getElementById(
+          "val-terdaftar-program",
+        );
+        const valTidakLolos = document.getElementById("val-tidak-lolos");
+        const statusListContainer = document.getElementById(
+          "status-list-container",
+        );
+
+        if (valTotalProgram && statusListContainer) {
+          const apiDataDashboard = {
+            statistik: {
+              total: 6,
+              terdaftar: 6,
+              tidakLolos: 0,
+            },
+            statusPendaftaran: [
+              {
+                judul: "Mad Thabii - Angkatan 2 - 2025", 
+                subJudul: null,
+                badgeText: "Diterima",
+                badgeColor: "bg-green-100 text-green-700",
+                labelTipe: "Pengumuman:",
+                pesanHtml:
+                  "Selamat! Anda berhasil lolos seleksi. Silakan ikuti kelas wajib dan kelas praktik sesuai jadwal yang telah ditentukan. <strong class='text-brand-dark font-extrabold'>Senin 2025, 11:00WIB</strong>",
+              },
+              {
+                judul: "Tafkhim & Tarqiq - Angkatan 3 - 2025",
+                subJudul: "(Tafkhim & Tarqiq)",
+                badgeText: "Pemilihan Kelas Praktek",
+                badgeColor: "bg-brand-yellow/30 text-yellow-700",
+                labelTipe: "Pengumuman:",
+                pesanHtml:
+                  "Selamat! Anda telah berhasil mendaftar pada program di Noora - Quran. Silakan ikuti tahapan selanjutnya.",
+              },
+            ],
+          };
+
+          // Suntik Data Angka Statistik
+          valTotalProgram.textContent = apiDataDashboard.statistik.total;
+          valTerdaftarProgram.textContent =
+            apiDataDashboard.statistik.terdaftar;
+          valTidakLolos.textContent = apiDataDashboard.statistik.tidakLolos;
+
+          // Suntik Data Card Status Pendaftaran
+          statusListContainer.innerHTML = ""; 
+
+          apiDataDashboard.statusPendaftaran.forEach((item) => {
+            let subJudulRender = item.subJudul
+              ? `<br><span class="text-[11px] font-medium text-brand-muted">${item.subJudul}</span>`
+              : "";
+
+            // Cetak HTML Card per item dari array
+            let cardElement = `
+                <div class="border border-slate-200 rounded-lg p-4 bg-white hover:border-brand-yellow/50 transition-colors shadow-sm">
+                    <div class="flex justify-between items-start mb-2 gap-2">
+                        <span class="text-sm font-bold text-brand-dark leading-tight">${item.judul} ${subJudulRender}</span>
+                        <span class="${item.badgeColor} text-[10px] font-extrabold px-2 py-0.5 rounded-full text-center min-w-max tracking-wide">${item.badgeText}</span>
+                    </div>
+                    <span class="bg-red-400 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm inline-block mb-2">${item.labelTipe}</span>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        ${item.pesanHtml}
+                    </p>
+                </div>
+            `;
+
+            statusListContainer.insertAdjacentHTML("beforeend", cardElement);
+          });
+        }
       }
     </script>
   </body>
