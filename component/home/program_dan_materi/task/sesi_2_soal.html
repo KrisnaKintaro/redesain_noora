@@ -1,0 +1,54 @@
+<h2 class="text-xl font-extrabold text-brand-dark mb-6">PR Mudud Pekan 1 - Pendahuluan</h2>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    
+    <!-- Area Soal -->
+    <div class="lg:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200/60 p-6 flex flex-col min-h-[400px]">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+            <h3 class="text-lg font-extrabold text-brand-dark">Soal No. <span id="current-soal-number" class="text-brand-yellow">1</span></h3>
+            <div class="bg-slate-50 text-brand-dark font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2 border border-slate-200 shadow-sm">
+                <i class="ph-fill ph-timer text-brand-yellow text-xl"></i> <span id="timer-display" class="tracking-widest">00:05:00</span>
+            </div>
+        </div>
+
+        <div class="flex-1">
+            <!-- Teks Soal bakal di-inject via JS ke sini -->
+            <p id="teks-soal" class="text-brand-dark font-medium leading-relaxed mb-6 text-base"></p>
+            
+            <!-- Opsi Jawaban bakal di-inject via JS ke sini -->
+            <div class="space-y-3" id="options-container">
+            </div>
+        </div>
+
+        <div class="mt-8 pt-5 border-t border-slate-100 flex justify-between items-center">
+            <!-- Tombol Sebelumnya -->
+            <button id="btn-sebelumnya" onclick="prevSoal()" class="px-5 py-2.5 bg-slate-100 text-brand-dark rounded-lg hover:bg-slate-200 font-bold text-sm transition-colors flex items-center gap-2"><i class="ph-bold ph-arrow-left"></i> Sebelumnya</button>
+            
+            <!-- Tombol Selesai Pengerjaan -->
+            <button onclick="cekSelesai()" class="px-6 py-2.5 bg-brand-dark text-brand-yellow rounded-lg hover:bg-slate-800 font-extrabold text-sm transition-colors shadow-md hidden animate-pulse" id="btn-selesai-pengerjaan">Selesai Pengerjaan</button>
+            
+            <!-- Tombol Selanjutnya -->
+            <button id="btn-selanjutnya" onclick="nextSoal()" class="px-5 py-2.5 bg-brand-yellow text-brand-dark rounded-lg hover:bg-[#F5D345] font-bold text-sm transition-colors shadow-sm flex items-center gap-2">Selanjutnya <i class="ph-bold ph-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Navigasi Soal Kanan -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-5 h-max sticky top-20">
+        <h4 class="font-extrabold text-brand-dark mb-4 text-xs uppercase tracking-widest text-center border-b border-slate-100 pb-3">Nomor Soal</h4>
+        <div class="grid grid-cols-4 gap-2" id="nav-soal-grid"></div>
+    </div>
+</div>
+
+<!-- MODAL VALIDASI SOAL -->
+<div id="modal-validasi" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 overflow-hidden transform scale-95 transition-transform duration-300" id="modal-box-validasi">
+        <div class="p-8 text-center">
+            <div id="modal-icon-validasi"></div>
+            <h3 id="modal-title-validasi" class="text-xl font-extrabold text-brand-dark mb-3"></h3>
+            <p id="modal-desc-validasi" class="text-sm text-brand-muted leading-relaxed mb-8"></p>
+            <div class="flex gap-3">
+                <button id="btn-batal-validasi" onclick="tutupModalValidasi()" class="flex-1 px-4 py-3 bg-slate-100 text-brand-dark font-bold text-sm rounded-xl hover:bg-slate-200">Batal</button>
+                <button id="btn-konfirmasi-validasi" class="flex-1 px-4 py-3 font-extrabold text-sm rounded-xl shadow-sm"></button>
+            </div>
+        </div>
+    </div>
+</div>

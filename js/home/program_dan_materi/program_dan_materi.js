@@ -164,19 +164,23 @@ function initProgramMateriLogic() {
         }
 
         filteredTasks.forEach((task) => {
-            let statusBadge, actionUI, borderClass;
+            let statusBadge, actionUI, borderClass, onClickEvent;
+            
             if (task.status === "selesai") {
-                borderClass = "border-green-200 hover:border-green-400 bg-green-50/30";
+                borderClass = "border-green-200 hover:border-green-400 bg-green-50/30 cursor-pointer";
+                onClickEvent = `onclick="openTask('selesai')"`; 
                 statusBadge = `<span class="text-[10px] bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded mb-1 inline-flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Selesai</span>`;
                 actionUI = `<div class="flex flex-col items-end"><span class="text-[10px] text-brand-muted font-bold uppercase tracking-wider mb-1">Nilai Akhir</span><span class="text-xl font-extrabold text-green-600 leading-none">${task.score}</span></div>`;
             } else {
                 borderClass = "border-slate-200 hover:border-brand-yellow bg-white";
+                onClickEvent = ``; 
                 statusBadge = `<span class="text-[10px] bg-brand-yellow/20 text-yellow-700 font-bold px-2 py-0.5 rounded mb-1 inline-block">${task.type}</span>`;
-                actionUI = `<button class="px-5 py-2.5 bg-brand-yellow text-brand-dark text-xs font-bold rounded-lg hover:bg-[#F5D345] shadow-sm transition-transform hover:scale-105 active:scale-95">Kerjakan</button>`;
+                actionUI = `<button onclick="openTask('belum')" class="px-5 py-2.5 bg-brand-yellow text-brand-dark text-xs font-bold rounded-lg hover:bg-[#F5D345] shadow-sm transition-transform hover:scale-105 active:scale-95">Kerjakan</button>`; // <--- INI PENTING
             }
 
             taskListContainer.insertAdjacentHTML("beforeend", `
-                <div class="p-4 border ${borderClass} rounded-xl shadow-sm transition-all flex justify-between items-center">
+                <!-- Selipin onClickEvent di div card ini -->
+                <div ${onClickEvent} class="p-4 border ${borderClass} rounded-xl shadow-sm transition-all flex justify-between items-center">
                     <div>
                         ${statusBadge}
                         <h4 class="font-bold text-brand-dark text-sm mt-1">${task.title}</h4>
