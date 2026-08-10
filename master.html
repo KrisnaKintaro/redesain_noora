@@ -3,9 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Noora Quran - Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #F8FAFC;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], 
+                    },
+                    colors: {
+                        brand: {
+                            yellow: '#FEDD58', 
+                            dark: '#1E293B',   
+                            light: '#F8FAFC',  
+                            muted: '#64748B'   
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    
-</body>
+<body class="text-brand-dark antialiased">
+    <div id="navbar-container"></div>
+
+    <main class="max-w-6xl mx-auto p-6 mt-4">
+
+    </main>
+
+    <script>
+        fetch('component/navbar.html')
+            .then(response => {
+                if (!response.ok) throw new Error('File navbar.html nggak ketemu, cek path foldernya');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                initNavbarLogic();
+            })
+            .catch(error => console.error(error));
+
+        function initNavbarLogic() {
+            // LOGIC DROPDOWN PROFIL
+            const profileBtn = document.getElementById('profile-btn');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const profileCaret = document.getElementById('profile-caret');
+
+            if (profileBtn && profileDropdown && profileCaret) {
+                // Kalau tombol profil diklik
+                profileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    profileDropdown.classList.toggle('hidden');
+                    profileCaret.classList.toggle('rotate-180');
+                });
+
+                // Kalau user klik di luar area dropdown
+                window.addEventListener('click', (e) => {
+                    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                        profileDropdown.classList.add('hidden');
+                        profileCaret.classList.remove('rotate-180');
+                    }
+                });
+            }
+
+            // LOGIC PILL MENU ACTIVE/INACTIVE
+            const navMenuLinks = document.querySelectorAll('#nav-menu a');
+
+            navMenuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); 
+
+                    // Hapus mode "Active" dari semua menu
+                    navMenuLinks.forEach(item => {
+                        item.className = "flex items-center gap-2 px-4 py-1.5 text-brand-muted hover:text-brand-dark hover:bg-white/50 font-medium text-sm rounded-md border border-transparent transition-all";
+                        
+                        const icon = item.querySelector('i');
+                        if(icon) {
+                            icon.className = icon.className.replace('ph-fill', 'ph').replace('text-brand-yellow', '');
+                        }
+                    });
+
+                    // Tambahkan mode "Active" ke menu yang diklik
+                    this.className = "flex items-center gap-2 px-4 py-1.5 bg-white text-brand-dark font-semibold text-sm rounded-md shadow-sm border border-slate-200/50 transition-all active-tab";
+                    
+                    const activeIcon = this.querySelector('i');
+                    if(activeIcon) {
+                        activeIcon.className = activeIcon.className.replace('ph', 'ph-fill') + ' text-brand-yellow';
+                    }
+                });
+            });
+        }
+    </script>
 </html>
