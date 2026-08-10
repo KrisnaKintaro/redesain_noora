@@ -63,6 +63,7 @@
         fetch("component/home/daftar_program_tersedia.html").then((res) =>
           res.text(),
         ),
+        fetch("component/home/faq.html").then((res) => res.text()),
       ])
         .then(
           ([
@@ -71,6 +72,7 @@
             programData,
             statistikData,
             daftarProgramData,
+            faqData,
           ]) => {
             document.getElementById("navbar-container").innerHTML = navData;
             document.getElementById("welcome-container").innerHTML =
@@ -81,6 +83,7 @@
               statistikData;
             document.getElementById("daftar-program-container").innerHTML =
               daftarProgramData;
+            document.getElementById("faq-container").innerHTML = faqData;
 
             initNavbarLogic();
             initHomeLogic();
@@ -605,7 +608,9 @@
             );
           });
         }
-        const availableProgramsContainer = document.getElementById("available-programs-container");
+        const availableProgramsContainer = document.getElementById(
+          "available-programs-container",
+        );
 
         if (availableProgramsContainer) {
           const apiDataAvailablePrograms = [
@@ -614,34 +619,38 @@
               title: "testing nih (Tajwid Advance)",
               startDate: "08 Agustus 2026 10:25",
               endDate: "31 Agustus 2026 10:25",
-              description: "Program lanjutan untuk memperdalam ilmu tajwid dengan praktik intensif bersama pengajar bersertifikat. Peserta akan difokuskan pada penguasaan makharijul huruf dan sifatul huruf secara mendalam agar bacaan semakin tartil dan sesuai sanad.",
+              description:
+                "Program lanjutan untuk memperdalam ilmu tajwid dengan praktik intensif bersama pengajar bersertifikat. Peserta akan difokuskan pada penguasaan makharijul huruf dan sifatul huruf secara mendalam agar bacaan semakin tartil dan sesuai sanad.",
             },
             {
               id: "new-prog-2",
               title: "Bahasa Arab Dasar - Angkatan 4",
               startDate: "15 September 2026 08:00",
               endDate: "15 Desember 2026 10:00",
-              description: "Kelas dasar bagi pemula yang ingin memahami kaidah bahasa Arab dari nol. Cocok untuk semua kalangan. Materi meliputi pengenalan isim, fi'il, huruf, serta penyusunan kalimat (jumlah mufeedah) untuk percakapan sehari-hari.",
+              description:
+                "Kelas dasar bagi pemula yang ingin memahami kaidah bahasa Arab dari nol. Cocok untuk semua kalangan. Materi meliputi pengenalan isim, fi'il, huruf, serta penyusunan kalimat (jumlah mufeedah) untuk percakapan sehari-hari.",
             },
             {
               id: "new-prog-3",
               title: "Hafalan Quran Intensif (Juz 30)",
               startDate: "01 Oktober 2026 16:00",
               endDate: "31 Desember 2026 17:30",
-              description: "Program khusus hafalan Juz 30 (Juz 'Amma) dengan metode tikrar dan setoran rutin. Didampingi oleh musyrif berpengalaman untuk memastikan kelancaran dan kekuatan hafalan (mutqin) kamu selama masa karantina.",
+              description:
+                "Program khusus hafalan Juz 30 (Juz 'Amma) dengan metode tikrar dan setoran rutin. Didampingi oleh musyrif berpengalaman untuk memastikan kelancaran dan kekuatan hafalan (mutqin) kamu selama masa karantina.",
             },
             {
               id: "new-prog-4",
               title: "Fiqih Ibadah Praktis",
               startDate: "10 November 2026 19:30",
               endDate: "10 Januari 2027 21:00",
-              description: "Membahas tata cara ibadah sehari-hari sesuai sunnah, mulai dari thaharah (bersuci), wudhu, mandi junub, hingga tata cara shalat wajib dan shalat sunnah lengkap dengan penjelasan dalil-dalil shohih.",
-            }
+              description:
+                "Membahas tata cara ibadah sehari-hari sesuai sunnah, mulai dari thaharah (bersuci), wudhu, mandi junub, hingga tata cara shalat wajib dan shalat sunnah lengkap dengan penjelasan dalil-dalil shohih.",
+            },
           ];
 
           availableProgramsContainer.innerHTML = "";
 
-          apiDataAvailablePrograms.forEach(prog => {
+          apiDataAvailablePrograms.forEach((prog) => {
             const cardHTML = `
               <div class="border border-slate-200 rounded-xl p-5 bg-white hover:border-brand-yellow hover:shadow-md transition-all flex flex-col self-start group">
                   <h4 class="font-bold text-brand-dark text-base mb-1.5 group-hover:text-yellow-600 transition-colors">${prog.title}</h4>
@@ -664,25 +673,87 @@
                   </button>
               </div>
             `;
-            
-            availableProgramsContainer.insertAdjacentHTML("beforeend", cardHTML);
+
+            availableProgramsContainer.insertAdjacentHTML(
+              "beforeend",
+              cardHTML,
+            );
           });
         }
-        
-        // FUNGSI BUAT BUKA TUTUP TEKS
-        window.toggleDeskripsi = function(id, btnElement) {
-            const descElement = document.getElementById(`desc-${id}`);
-            const btnText = btnElement.querySelector('.btn-text');
-            const btnIcon = btnElement.querySelector('.icon-caret');
 
-            if (descElement.classList.contains('line-clamp-2')) {
-                descElement.classList.remove('line-clamp-2');
-                btnText.textContent = 'Sembunyikan';
-                btnIcon.classList.replace('ph-caret-down', 'ph-caret-up');
+        // FUNGSI BUAT BUKA TUTUP TEKS
+        window.toggleDeskripsi = function (id, btnElement) {
+          const descElement = document.getElementById(`desc-${id}`);
+          const btnText = btnElement.querySelector(".btn-text");
+          const btnIcon = btnElement.querySelector(".icon-caret");
+
+          if (descElement.classList.contains("line-clamp-2")) {
+            descElement.classList.remove("line-clamp-2");
+            btnText.textContent = "Sembunyikan";
+            btnIcon.classList.replace("ph-caret-down", "ph-caret-up");
+          } else {
+            descElement.classList.add("line-clamp-2");
+            btnText.textContent = "Lihat Selengkapnya";
+            btnIcon.classList.replace("ph-caret-up", "ph-caret-down");
+          }
+        };
+
+        // LOGIC DATA FAQ (ACCORDION)
+        const faqListContainer = document.getElementById("faq-list-container");
+
+        if (faqListContainer) {
+          const apiDataFaq = [
+            {
+              question: "Apa itu Noora - Quran?",
+              answer: "Noora - Quran adalah platform digital yang didedikasikan untuk memfasilitasi pembelajaran Al-Quran yang terstruktur, mulai dari tajwid, tahsin, hingga pemahaman bahasa Arab secara komprehensif."
+            },
+            {
+              question: "Bagaimana cara daftar di Noora - Quran?",
+              answer: "Anda dapat mendaftar dengan memilih program yang tersedia di atas, klik tombol 'Lihat Selengkapnya', dan ikuti petunjuk pendaftaran yang muncul. Setelah itu tunggu hasil seleksinya di menu Status Pendaftaranmu."
+            },
+            {
+              question: "Apakah kelas dilakukan secara online atau offline?",
+              answer: "Saat ini, sebagian besar kelas teori dilakukan secara online via zoom/gmeet, sedangkan kelas praktik bisa disesuaikan apakah hybrid atau full online sesuai dengan program yang Anda ikuti."
+            },
+            {
+              question: "Bagaimana jika saya tidak lolos seleksi program?",
+              answer: "Jangan berkecil hati. Anda masih bisa mendaftar di program lain atau menunggu pembukaan angkatan (batch) selanjutnya. Histori penolakan bisa dilihat di kotak statistik."
+            }
+          ];
+
+          faqListContainer.innerHTML = "";
+
+          apiDataFaq.forEach((faq, index) => {
+            const faqHTML = `
+              <div class="border border-slate-200 rounded-lg overflow-hidden transition-all bg-slate-50/50 hover:border-brand-yellow/50 group">
+                  <!-- Tombol Pertanyaan -->
+                  <button onclick="toggleFaq('faq-ans-${index}', this)" class="w-full text-left px-5 py-4 flex justify-between items-center focus:outline-none">
+                      <span class="font-semibold text-brand-dark text-sm pr-4 group-hover:text-yellow-700 transition-colors">${faq.question}</span>
+                      <i class="ph-bold ph-caret-down text-brand-muted transition-transform duration-300 transform icon-caret group-hover:text-yellow-600"></i>
+                  </button>
+                  
+                  <!-- Wadah Jawaban (Default: hidden) -->
+                  <div id="faq-ans-${index}" class="hidden px-5 pb-4 pt-1 text-xs text-brand-muted leading-relaxed border-t border-slate-100/80 bg-white">
+                      ${faq.answer}
+                  </div>
+              </div>
+            `;
+            
+            faqListContainer.insertAdjacentHTML("beforeend", faqHTML);
+          });
+        }
+
+        // FUNGSI BUAT BUKA TUTUP ACCORDION FAQ
+        window.toggleFaq = function(ansId, btnElement) {
+            const ansElement = document.getElementById(ansId);
+            const iconElement = btnElement.querySelector('.icon-caret');
+
+            if (ansElement.classList.contains('hidden')) {
+                ansElement.classList.remove('hidden');
+                iconElement.classList.replace('ph-caret-down', 'ph-caret-up');
             } else {
-                descElement.classList.add('line-clamp-2');
-                btnText.textContent = 'Lihat Selengkapnya';
-                btnIcon.classList.replace('ph-caret-up', 'ph-caret-down');
+                ansElement.classList.add('hidden');
+                iconElement.classList.replace('ph-caret-up', 'ph-caret-down');
             }
         };
       }

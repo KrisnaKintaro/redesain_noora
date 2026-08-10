@@ -1,195 +1,82 @@
-<div
-  class="bg-white rounded-xl shadow-sm border border-slate-200/60 overflow-hidden mb-6"
->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200/60 overflow-hidden mb-6">
   <!-- HEADER DROPDOWN PROGRAM -->
   <div class="bg-slate-50 border-b border-slate-200/60 p-4 lg:px-6 relative">
-    <!-- Tombol Dropdown -->
-    <button
-      id="dropdown-program-btn"
-      class="flex flex-wrap items-center gap-2 text-[11px] md:text-xs font-medium text-brand-muted mb-1 hover:text-brand-dark transition-colors w-full text-left focus:outline-none"
-    >
-      <span
-        class="bg-brand-dark text-white px-2 py-0.5 rounded font-bold shadow-sm"
-        >0</span
-      >
+    <button id="dropdown-program-btn" class="flex flex-wrap items-center gap-2 text-[11px] md:text-xs font-medium text-brand-muted mb-1 hover:text-brand-dark transition-colors w-full text-left focus:outline-none">
+      <span class="bg-brand-dark text-white px-2 py-0.5 rounded font-bold shadow-sm">0</span>
       <span id="selected-program-label">Pilih Modul Program...</span>
       <i class="ph-bold ph-caret-down ml-auto"></i>
     </button>
 
-    <!-- Menu Dropdown (3 Jenis Modul) -->
-    <div
-      id="dropdown-program-menu"
-      class="hidden absolute top-full left-0 mt-2 w-full max-w-md bg-white border border-slate-200 rounded-lg shadow-xl z-30 overflow-hidden"
-    >
-      <!-- Tipe 1: Teori Saja -->
-      <button
-        class="program-item w-full text-left px-4 py-3 text-sm hover:bg-slate-50 border-b border-slate-100 transition-colors"
-        data-type="teori"
-        data-name="Quranic Arabic Level 1"
-      >
-        <span class="block font-bold text-brand-dark"
-          >Quranic Arabic Level 1</span
-        >
-        <span class="text-xs text-brand-muted">Hanya Kelas Teori</span>
-      </button>
-      <!-- Tipe 2: Praktik Saja -->
-      <button
-        class="program-item w-full text-left px-4 py-3 text-sm hover:bg-slate-50 border-b border-slate-100 transition-colors"
-        data-type="praktik"
-        data-name="Tahsin & Tajwid Praktik"
-      >
-        <span class="block font-bold text-brand-dark"
-          >Tahsin & Tajwid Praktik</span
-        >
-        <span class="text-xs text-brand-muted">Hanya Kelas Praktik</span>
-      </button>
-      <!-- Tipe 3: Keduanya -->
-      <button
-        class="program-item w-full text-left px-4 py-3 text-sm hover:bg-slate-50 transition-colors"
-        data-type="both"
-        data-name="Bahasa Arab Komprehensif"
-      >
-        <span class="block font-bold text-brand-dark"
-          >Bahasa Arab Komprehensif</span
-        >
-        <span class="text-xs text-brand-muted">Kelas Teori & Praktik</span>
-      </button>
+    <!-- Menu Dropdown (Cangkang Kosong, di-inject JS) -->
+    <div id="dropdown-program-menu" class="hidden absolute top-full left-0 mt-2 w-full max-w-md bg-white border border-slate-200 rounded-lg shadow-xl z-30 overflow-hidden">
+        <!-- List modul masuk sini cuy -->
     </div>
 
     <h2 class="text-lg font-bold text-brand-dark mt-2">
       Program:
-      <span id="program-title-display" class="text-brand-yellow font-extrabold"
-        >(Belum Dipilih)</span
-      >
+      <span id="program-title-display" class="text-brand-yellow font-extrabold">(Belum Dipilih)</span>
     </h2>
   </div>
 
   <!-- CONTENT GRID -->
   <div class="grid grid-cols-1 lg:grid-cols-4 min-h-[500px]">
     <!-- SIDEBAR (KIRI) -->
-    <div
-      class="border-b lg:border-b-0 lg:border-r border-slate-200/60 p-4 lg:p-6 bg-white flex flex-col"
-    >
+    <div class="border-b lg:border-b-0 lg:border-r border-slate-200/60 p-4 lg:p-6 bg-white flex flex-col">
       <h3 class="text-lg font-extrabold text-brand-dark text-center">Materi</h3>
-      <p class="text-[11px] text-red-400 text-center mt-1 mb-5 leading-tight">
-        Pilih materi dibawah ini untuk melihat detail.
-      </p>
+      <p class="text-[11px] text-red-400 text-center mt-1 mb-5 leading-tight">Pilih materi dibawah ini untuk melihat detail.</p>
 
       <!-- Toggle Tab -->
-      <div
-        id="tab-container"
-        class="flex bg-slate-100/80 rounded-lg p-1 mb-4 border border-slate-200/50 hidden"
-      >
-        <button
-          id="tab-teori"
-          class="flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all hidden"
-        >
-          Kelas Teori
-        </button>
-        <button
-          id="tab-praktik"
-          class="flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all hidden"
-        >
-          Kelas Praktik
-        </button>
+      <div id="tab-container" class="flex bg-slate-100/80 rounded-lg p-1 mb-4 border border-slate-200/50 hidden">
+        <button id="tab-teori" class="flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all hidden">Kelas Teori</button>
+        <button id="tab-praktik" class="flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all hidden">Kelas Praktik</button>
       </div>
 
       <!-- List Kelas akan di-inject JS ke sini -->
-      <div
-        id="class-list-container"
-        class="space-y-1 flex-1 overflow-y-auto pr-2 custom-scrollbar"
-      ></div>
+      <div id="class-list-container" class="space-y-1 flex-1 overflow-y-auto pr-2 custom-scrollbar"></div>
     </div>
 
     <!-- MAIN CONTENT (KANAN) -->
-    <div
-      class="p-4 lg:p-6 lg:col-span-3 bg-slate-50/50 relative overflow-hidden"
-    >
-      <!-- BLUR OVERLAY (Tampil sebelum kelas dipilih) -->
-      <div
-        id="pr-ujian-overlay"
-        class="absolute inset-0 bg-white/60 backdrop-blur-md z-20 flex flex-col items-center justify-center transition-opacity duration-300"
-      >
-        <div
-          class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center max-w-sm"
-        >
-          <div
-            class="w-16 h-16 bg-brand-yellow/20 rounded-full flex items-center justify-center mx-auto mb-4"
-          >
+    <div class="p-4 lg:p-6 lg:col-span-3 bg-slate-50/50 relative overflow-hidden">
+      
+      <!-- BLUR OVERLAY -->
+      <div id="pr-ujian-overlay" class="absolute inset-0 bg-white/60 backdrop-blur-md z-20 flex flex-col items-center justify-center transition-opacity duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center max-w-sm">
+          <div class="w-16 h-16 bg-brand-yellow/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <i class="ph-bold ph-cursor-click text-3xl text-brand-yellow"></i>
           </div>
-          <h3 class="text-lg font-bold text-brand-dark mb-1">
-            Pilih Kelas Dulu!
-          </h3>
-          <p class="text-xs text-brand-muted">
-            Silakan pilih modul program di kiri atas, lalu klik salah satu
-            materi di sebelah kiri.
-          </p>
+          <h3 class="text-lg font-bold text-brand-dark mb-1">Pilih Kelas Dulu!</h3>
+          <p class="text-xs text-brand-muted">Silakan pilih modul program di kiri atas, lalu klik salah satu materi di sebelah kiri.</p>
         </div>
       </div>
 
-      <!-- KONTEN ASLI (Tampil setelah kelas dipilih) -->
-      <div
-        id="pr-ujian-content"
-        class="opacity-0 transition-opacity duration-500"
-      >
+      <!-- KONTEN ASLI -->
+      <div id="pr-ujian-content" class="opacity-0 transition-opacity duration-500">
+        
         <!-- Header Info Kelas -->
         <div class="mb-6 pb-4 border-b border-slate-200">
-          <h3
-            id="display-class-name"
-            class="text-xl font-extrabold text-brand-dark uppercase tracking-wide"
-          >
-            Nama Kelas
-          </h3>
-          <div
-            class="flex items-center gap-2 mt-2 text-sm font-medium text-brand-muted"
-          >
+          <h3 id="display-class-name" class="text-xl font-extrabold text-brand-dark uppercase tracking-wide">-</h3>
+          <div class="flex items-center gap-2 mt-2 text-sm font-medium text-brand-muted">
             <i class="ph-fill ph-calendar-blank text-brand-yellow"></i>
-            <span id="display-class-date"
-              >Senin, 10 Agustus 2026 - 09:00 WIB</span
-            >
+            <!-- Tanggal dikosongin, nanti diisi via JS -->
+            <span id="display-class-date">-</span>
           </div>
         </div>
 
-        <!-- Tab & Filter & Card -->
+        <!-- Tab & Filter -->
         <div class="flex border-b border-slate-200 mb-6">
-          <button
-            id="tab-pr-btn"
-            class="px-8 py-3 text-sm font-bold text-brand-dark border-b-2 border-brand-yellow transition-colors focus:outline-none"
-          >
-            PR
-          </button>
-          <button
-            id="tab-ujian-btn"
-            class="px-8 py-3 text-sm font-medium text-brand-muted hover:text-brand-dark border-b-2 border-transparent transition-colors focus:outline-none"
-          >
-            Ujian
-          </button>
+          <button id="tab-pr-btn" class="px-8 py-3 text-sm font-bold text-brand-dark border-b-2 border-brand-yellow transition-colors focus:outline-none">PR</button>
+          <button id="tab-ujian-btn" class="px-8 py-3 text-sm font-medium text-brand-muted hover:text-brand-dark border-b-2 border-transparent transition-colors focus:outline-none">Ujian</button>
         </div>
 
-        <!-- FILTER SEARCH & TANGGAL -->
         <div class="flex flex-col sm:flex-row gap-3 mb-6">
           <div class="flex-1 relative">
-            <i
-              class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-brand-muted"
-            ></i>
-            <input
-              type="text"
-              placeholder="Cari nama pr/ujian"
-              class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow"
-            />
+            <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-brand-muted"></i>
+            <input type="text" placeholder="Cari nama pr/ujian" class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow" />
           </div>
           <div class="relative w-full sm:w-48">
-            <input
-              type="date"
-              class="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:border-brand-yellow text-brand-muted"
-            />
+            <input type="date" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:border-brand-yellow text-brand-muted" />
           </div>
-          <button
-            class="bg-brand-dark text-white font-semibold px-6 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors"
-          >
-            Reset
-          </button>
+          <button class="bg-brand-dark text-white font-semibold px-6 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors">Reset</button>
         </div>
 
         <!-- WADAH CARD PR / UJIAN  -->
