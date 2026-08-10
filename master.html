@@ -196,227 +196,200 @@
       function initHomeLogic() {
         // 1. LOGIC SCROLL MULAI BELAJAR
         const btnMulai = document.getElementById("btn-mulai-belajar");
-        const programContainer = document.getElementById(
-          "program-materi-container",
-        );
+        const programContainer = document.getElementById("program-materi-container");
 
         if (btnMulai && programContainer) {
           btnMulai.addEventListener("click", () => {
-            // Scroll mulus otomatis
-            programContainer.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
+            programContainer.scrollIntoView({ behavior: "smooth", block: "start" });
           });
         }
 
-        // 2. LOGIC PROGRAM & MATERI
+        // ==========================================
+        // 2. SIMULASI API DATA PROGRAM & MATERI
+        // ==========================================
+        const apiDataProgram = [
+          {
+            id: "prog-1",
+            type: "teori",
+            name: "Quranic Arabic Level 1",
+            desc: "Hanya Kelas Teori",
+            materi: {
+              teori: [
+                { judul: "Pekan 1 - Pengantar Hukum Mim", tanggal: "Senin, 10 Agustus 2026 - 09:00 WIB" },
+                { judul: "Pekan 2 - Mim Sakinah (Ikhfa)", tanggal: "Senin, 17 Agustus 2026 - 09:00 WIB" },
+                { judul: "Ujian Tengah Program (Teori)", tanggal: "Senin, 24 Agustus 2026 - 09:00 WIB" }
+              ],
+              praktik: []
+            }
+          },
+          {
+            id: "prog-2",
+            type: "praktik",
+            name: "Tahsin & Tajwid Praktik",
+            desc: "Hanya Kelas Praktik",
+            materi: {
+              teori: [],
+              praktik: [
+                { judul: "Praktik 1 - Makharijul Huruf", tanggal: "Selasa, 11 Agustus 2026 - 13:00 WIB" },
+                { judul: "Praktik 2 - Sifatul Huruf", tanggal: "Selasa, 18 Agustus 2026 - 13:00 WIB" }
+              ]
+            }
+          },
+          {
+            id: "prog-3",
+            type: "both",
+            name: "Bahasa Arab Komprehensif",
+            desc: "Kelas Teori & Praktik",
+            materi: {
+              teori: [
+                { judul: "Pekan 1 - Pengenalan Isim", tanggal: "Rabu, 12 Agustus 2026 - 08:00 WIB" }
+              ],
+              praktik: [
+                { judul: "Praktik 1 - Hiwar Dasar", tanggal: "Kamis, 13 Agustus 2026 - 15:30 WIB" }
+              ]
+            }
+          }
+        ];
+
         const dropdownBtn = document.getElementById("dropdown-program-btn");
         const dropdownMenu = document.getElementById("dropdown-program-menu");
-        const programTitleDisplay = document.getElementById(
-          "program-title-display",
-        );
-        const selectedProgramLabel = document.getElementById(
-          "selected-program-label",
-        );
-
+        const programTitleDisplay = document.getElementById("program-title-display");
+        const selectedProgramLabel = document.getElementById("selected-program-label");
         const tabContainer = document.getElementById("tab-container");
         const tabTeori = document.getElementById("tab-teori");
         const tabPraktik = document.getElementById("tab-praktik");
-        const classListContainer = document.getElementById(
-          "class-list-container",
-        );
-
+        const classListContainer = document.getElementById("class-list-container");
         const overlayBlur = document.getElementById("pr-ujian-overlay");
         const contentReal = document.getElementById("pr-ujian-content");
         const displayClassName = document.getElementById("display-class-name");
+        const displayClassDate = document.getElementById("display-class-date");
 
-        // Data Dummy buat List Kelas cuy (Bisa lu ubah sesuka hati)
-        const dataKelas = {
-          teori: [
-            "Pekan 1 - Pengantar Hukum",
-            "Pekan 2 - Mim Sakinah (Ikhfa & Idgham)",
-            "Pekan 3 - Mim Sakinah (Idzhar)",
-            "Ujian Tengah Program (Teori)",
-          ],
-          praktik: [
-            "Praktik 1 - Makharijul Huruf",
-            "Praktik 2 - Sifatul Huruf",
-            "Praktik 3 - Talaqqi Surat Pendek",
-            "Ujian Praktik Akhir",
-          ],
-        };
+        // Variabel penyimpan data yang lagi aktif dipilih
+        let activeProgramData = null;
 
         // Fungsi Buka Tutup Dropdown Program
-        dropdownBtn.addEventListener("click", () =>
-          dropdownMenu.classList.toggle("hidden"),
-        );
+        dropdownBtn.addEventListener("click", () => dropdownMenu.classList.toggle("hidden"));
 
-        // Fungsi waktu milih Modul
-        document.querySelectorAll(".program-item").forEach((item) => {
-          item.addEventListener("click", (e) => {
-            const btn = e.currentTarget;
-            const type = btn.dataset.type; // 'teori', 'praktik', atau 'both'
-            const name = btn.dataset.name;
-
+        // RENDER DATA DROPDOWN PROGRAM DARI API
+        dropdownMenu.innerHTML = '';
+        apiDataProgram.forEach(program => {
+          const btn = document.createElement('button');
+          btn.className = "w-full text-left px-4 py-3 text-sm hover:bg-slate-50 border-b border-slate-100 transition-colors";
+          btn.innerHTML = `
+            <span class="block font-bold text-brand-dark">${program.name}</span>
+            <span class="text-xs text-brand-muted">${program.desc}</span>
+          `;
+          
+          btn.addEventListener("click", () => {
+            activeProgramData = program;
+            
             // Ubah teks judul
-            programTitleDisplay.textContent = name;
+            programTitleDisplay.textContent = program.name;
             programTitleDisplay.classList.remove("text-brand-yellow");
-            selectedProgramLabel.textContent = name;
-            dropdownMenu.classList.add("hidden"); // Tutup dropdown
+            selectedProgramLabel.textContent = program.name;
+            dropdownMenu.classList.add("hidden"); 
 
             // Munculin bungkus tab-nya
             tabContainer.classList.remove("hidden");
 
-            // Reset Tab (Sembunyiin semua & Hapus efek aktif)
+            // Reset Tab
             tabTeori.classList.add("hidden");
             tabPraktik.classList.add("hidden");
-            tabTeori.className =
-              "flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all";
-            tabPraktik.className =
-              "flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all";
+            tabTeori.className = "flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all";
+            tabPraktik.className = "flex-1 text-brand-muted font-medium text-xs py-2 rounded-md transition-all";
 
-            // Logic nampilin tab sesuai tipe modul
-            if (type === "teori" || type === "both") {
+            // Atur Tab berdasarkan Tipe
+            if (program.type === "teori" || program.type === "both") {
               tabTeori.classList.remove("hidden");
-              tabTeori.classList.add(
-                "bg-brand-yellow",
-                "text-brand-dark",
-                "font-bold",
-                "shadow-sm",
-              ); // Default aktif
+              tabTeori.classList.add("bg-brand-yellow", "text-brand-dark", "font-bold", "shadow-sm"); 
             }
-            if (type === "praktik" || type === "both") {
+            if (program.type === "praktik" || program.type === "both") {
               tabPraktik.classList.remove("hidden");
-              if (type === "praktik") {
-                tabPraktik.classList.add(
-                  "bg-brand-yellow",
-                  "text-brand-dark",
-                  "font-bold",
-                  "shadow-sm",
-                );
+              if (program.type === "praktik") {
+                tabPraktik.classList.add("bg-brand-yellow", "text-brand-dark", "font-bold", "shadow-sm");
               }
             }
 
-            // Render Daftar Kelas berdasarkan tipe awal
-            renderClassList(type === "praktik" ? "praktik" : "teori");
+            // Render Daftar Kelas
+            renderClassList(program.type === "praktik" ? "praktik" : "teori");
           });
+          
+          dropdownMenu.appendChild(btn);
         });
 
-        // Fungsi Render Tombol Kelas ke Sidebar
+        // Fungsi Render List Kelas
         function renderClassList(listType) {
-          classListContainer.innerHTML = ""; // Bersihin isi sebelumnya
-
-          // Kembalikan Mode Blur!
+          classListContainer.innerHTML = ""; 
+          
+          // Reset Area Kanan (Tutup konten, munculkan Blur)
           overlayBlur.classList.remove("hidden");
           setTimeout(() => overlayBlur.classList.remove("opacity-0"), 10);
           contentReal.classList.remove("opacity-100");
           contentReal.classList.add("opacity-0");
 
-          const items = dataKelas[listType] || [];
+          if (!activeProgramData) return;
+          
+          const items = activeProgramData.materi[listType] || [];
 
           items.forEach((cls) => {
             const btn = document.createElement("button");
-            btn.className =
-              "w-full text-left p-3 text-brand-muted text-sm font-medium hover:bg-slate-50 hover:text-brand-dark rounded-md transition-colors border-l-[3px] border-transparent class-item-btn";
-            btn.textContent = cls;
+            btn.className = "w-full text-left p-3 text-brand-muted text-sm font-medium hover:bg-slate-50 hover:text-brand-dark rounded-md transition-colors border-l-[3px] border-transparent class-item-btn";
+            btn.textContent = cls.judul;
 
-            // Kalau Kelasnya diklik
             btn.addEventListener("click", () => {
-              // Hapus kuning dari semua tombol
+              // Styling Item Aktif
               document.querySelectorAll(".class-item-btn").forEach((b) => {
-                b.className =
-                  "w-full text-left p-3 text-brand-muted text-sm font-medium hover:bg-slate-50 hover:text-brand-dark rounded-md transition-colors border-l-[3px] border-transparent class-item-btn";
+                b.className = "w-full text-left p-3 text-brand-muted text-sm font-medium hover:bg-slate-50 hover:text-brand-dark rounded-md transition-colors border-l-[3px] border-transparent class-item-btn";
               });
+              btn.className = "w-full text-left p-3 bg-slate-50 border-l-[3px] border-brand-yellow rounded-r-md text-sm font-semibold text-brand-dark transition-colors class-item-btn";
 
-              // Kasih kuning ke tombol yang diklik
-              btn.className =
-                "w-full text-left p-3 bg-slate-50 border-l-[3px] border-brand-yellow rounded-r-md text-sm font-semibold text-brand-dark transition-colors class-item-btn";
-
-              // HAPUS BLUR OVERLAY & MUNCULIN KONTEN
+              // Buka Blur & Tampilkan Konten
               overlayBlur.classList.add("opacity-0");
               setTimeout(() => overlayBlur.classList.add("hidden"), 300);
               contentReal.classList.remove("opacity-0");
               contentReal.classList.add("opacity-100");
 
-              // Ubah Judul Kelas di Kanan
-              displayClassName.textContent = cls;
+              // SUNTIK DATA JUDUL & TANGGAL KELAS DINAMIS
+              displayClassName.textContent = cls.judul;
+              displayClassDate.textContent = cls.tanggal;
+              
+              // Trigger klik tab PR biar datanya langsung load
+              tabPrBtn.click();
             });
 
             classListContainer.appendChild(btn);
           });
         }
 
-        // Logic Klik Tab Teori/Praktik
         tabTeori.addEventListener("click", () => {
-          tabTeori.className =
-            "flex-1 bg-brand-yellow text-brand-dark font-bold text-xs py-2 rounded-md shadow-sm transition-all";
-          tabPraktik.className =
-            "flex-1 text-brand-muted font-medium text-xs py-2 hover:text-brand-dark transition-all";
+          tabTeori.className = "flex-1 bg-brand-yellow text-brand-dark font-bold text-xs py-2 rounded-md shadow-sm transition-all";
+          tabPraktik.className = "flex-1 text-brand-muted font-medium text-xs py-2 hover:text-brand-dark transition-all";
           renderClassList("teori");
         });
 
         tabPraktik.addEventListener("click", () => {
-          tabPraktik.className =
-            "flex-1 bg-brand-yellow text-brand-dark font-bold text-xs py-2 rounded-md shadow-sm transition-all";
-          tabTeori.className =
-            "flex-1 text-brand-muted font-medium text-xs py-2 hover:text-brand-dark transition-all";
+          tabPraktik.className = "flex-1 bg-brand-yellow text-brand-dark font-bold text-xs py-2 rounded-md shadow-sm transition-all";
+          tabTeori.className = "flex-1 text-brand-muted font-medium text-xs py-2 hover:text-brand-dark transition-all";
           renderClassList("praktik");
         });
 
-        // LOGIC DATA PR & UJIAN
+        // ==========================================
+        // 3. LOGIC DATA PR & UJIAN
+        // ==========================================
         const tabPrBtn = document.getElementById("tab-pr-btn");
         const tabUjianBtn = document.getElementById("tab-ujian-btn");
-        const taskListContainer = document.getElementById(
-          "task-list-container",
-        );
+        const taskListContainer = document.getElementById("task-list-container");
 
         const taskData = [
-          {
-            type: "PR",
-            title: "Tugas Pemahaman Hukum Mim",
-            deadline: "15 Agustus 2026",
-            status: "belum",
-            score: null,
-          },
-          {
-            type: "PR",
-            title: "Hafalan Praktik Pekan 1",
-            deadline: "10 Agustus 2026",
-            status: "selesai",
-            score: 95,
-          },
-          {
-            type: "PR",
-            title: "Resume Materi Teori",
-            deadline: "12 Agustus 2026",
-            status: "selesai",
-            score: 88,
-          },
-          {
-            type: "Ujian",
-            title: "Ujian Tengah Program (Teori)",
-            deadline: "30 Agustus 2026",
-            status: "belum",
-            score: null,
-          },
-          {
-            type: "Ujian",
-            title: "Pre-Test Kemampuan Awal",
-            deadline: "1 Agustus 2026",
-            status: "selesai",
-            score: 100,
-          },
+          { type: "PR", title: "Tugas Pemahaman Hukum Mim", deadline: "15 Agustus 2026", status: "belum", score: null },
+          { type: "PR", title: "Hafalan Praktik", deadline: "10 Agustus 2026", status: "selesai", score: 95 },
+          { type: "Ujian", title: "Ujian Tengah Program (Teori)", deadline: "30 Agustus 2026", status: "belum", score: null },
+          { type: "Ujian", title: "Pre-Test Kemampuan Awal", deadline: "1 Agustus 2026", status: "selesai", score: 100 },
         ];
 
-        // Fungsi buat render (mencetak) Card ke layar
         function renderTasks(tabType) {
-          taskListContainer.innerHTML = ""; // Bersihin isi wadah dulu
-
-          // Saring data berdasarkan tab yang lagi aktif (PR atau Ujian)
-          const filteredTasks = taskData.filter(
-            (task) => task.type === tabType,
-          );
+          taskListContainer.innerHTML = ""; 
+          const filteredTasks = taskData.filter((task) => task.type === tabType);
 
           if (filteredTasks.length === 0) {
             taskListContainer.innerHTML = `
@@ -427,29 +400,19 @@
             return;
           }
 
-          // Looping data yang udah disaring buat dibikin HTML Card-nya
           filteredTasks.forEach((task) => {
             let statusBadge, actionUI, borderClass;
-
             if (task.status === "selesai") {
-              // Tampilan kalau SUDAH SELESAI
-              borderClass =
-                "border-green-200 hover:border-green-400 bg-green-50/30";
+              borderClass = "border-green-200 hover:border-green-400 bg-green-50/30";
               statusBadge = `<span class="text-[10px] bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded mb-1 inline-flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Selesai</span>`;
-              actionUI = `
-                    <div class="flex flex-col items-end">
-                        <span class="text-[10px] text-brand-muted font-bold uppercase tracking-wider mb-1">Nilai Akhir</span>
-                        <span class="text-xl font-extrabold text-green-600 leading-none">${task.score}</span>
-                    </div>`;
+              actionUI = `<div class="flex flex-col items-end"><span class="text-[10px] text-brand-muted font-bold uppercase tracking-wider mb-1">Nilai Akhir</span><span class="text-xl font-extrabold text-green-600 leading-none">${task.score}</span></div>`;
             } else {
-              // Tampilan kalau BELUM DIKERJAKAN
-              borderClass =
-                "border-slate-200 hover:border-brand-yellow bg-white";
+              borderClass = "border-slate-200 hover:border-brand-yellow bg-white";
               statusBadge = `<span class="text-[10px] bg-brand-yellow/20 text-yellow-700 font-bold px-2 py-0.5 rounded mb-1 inline-block">${task.type}</span>`;
               actionUI = `<button class="px-5 py-2.5 bg-brand-yellow text-brand-dark text-xs font-bold rounded-lg hover:bg-[#F5D345] shadow-sm transition-transform hover:scale-105 active:scale-95">Kerjakan</button>`;
             }
 
-            const cardHTML = `
+            taskListContainer.insertAdjacentHTML("beforeend", `
                 <div class="p-4 border ${borderClass} rounded-xl shadow-sm transition-all flex justify-between items-center">
                     <div>
                         ${statusBadge}
@@ -460,51 +423,33 @@
                     </div>
                     ${actionUI}
                 </div>
-            `;
-            // Masukin HTML-nya ke dalem wadah
-            taskListContainer.insertAdjacentHTML("beforeend", cardHTML);
+            `);
           });
         }
 
-        // Logic Klik Tab PR
         tabPrBtn.addEventListener("click", () => {
-          // Ubah style tab
-          tabPrBtn.className =
-            "px-8 py-3 text-sm font-bold text-brand-dark border-b-2 border-brand-yellow transition-colors focus:outline-none";
-          tabUjianBtn.className =
-            "px-8 py-3 text-sm font-medium text-brand-muted hover:text-brand-dark border-b-2 border-transparent transition-colors focus:outline-none";
-          // Render data PR
+          tabPrBtn.className = "px-8 py-3 text-sm font-bold text-brand-dark border-b-2 border-brand-yellow transition-colors focus:outline-none";
+          tabUjianBtn.className = "px-8 py-3 text-sm font-medium text-brand-muted hover:text-brand-dark border-b-2 border-transparent transition-colors focus:outline-none";
           renderTasks("PR");
         });
 
-        // Logic Klik Tab Ujian
         tabUjianBtn.addEventListener("click", () => {
-          // Ubah style tab
-          tabUjianBtn.className =
-            "px-8 py-3 text-sm font-bold text-brand-dark border-b-2 border-brand-yellow transition-colors focus:outline-none";
-          tabPrBtn.className =
-            "px-8 py-3 text-sm font-medium text-brand-muted hover:text-brand-dark border-b-2 border-transparent transition-colors focus:outline-none";
-          // Render data Ujian
+          tabUjianBtn.className = "px-8 py-3 text-sm font-bold text-brand-dark border-b-2 border-brand-yellow transition-colors focus:outline-none";
+          tabPrBtn.className = "px-8 py-3 text-sm font-medium text-brand-muted hover:text-brand-dark border-b-2 border-transparent transition-colors focus:outline-none";
           renderTasks("Ujian");
         });
 
-        // LOGIC DATA STATISTIK & STATUS PENDAFTARAN
+        // ==========================================
+        // 4. LOGIC DATA STATISTIK & STATUS PENDAFTARAN
+        // ==========================================
         const valTotalProgram = document.getElementById("val-total-program");
-        const valTerdaftarProgram = document.getElementById(
-          "val-terdaftar-program",
-        );
+        const valTerdaftarProgram = document.getElementById("val-terdaftar-program");
         const valTidakLolos = document.getElementById("val-tidak-lolos");
-        const statusListContainer = document.getElementById(
-          "status-list-container",
-        );
+        const statusListContainer = document.getElementById("status-list-container");
 
         if (valTotalProgram && statusListContainer) {
           const apiDataDashboard = {
-            statistik: {
-              total: 6,
-              terdaftar: 6,
-              tidakLolos: 0,
-            },
+            statistik: { total: 6, terdaftar: 6, tidakLolos: 0 },
             statusPendaftaran: [
               {
                 judul: "Mad Thabii - Angkatan 2 - 2025", 
@@ -512,8 +457,7 @@
                 badgeText: "Diterima",
                 badgeColor: "bg-green-100 text-green-700",
                 labelTipe: "Pengumuman:",
-                pesanHtml:
-                  "Selamat! Anda berhasil lolos seleksi. Silakan ikuti kelas wajib dan kelas praktik sesuai jadwal yang telah ditentukan. <strong class='text-brand-dark font-extrabold'>Senin 2025, 11:00WIB</strong>",
+                pesanHtml: "Selamat! Anda berhasil lolos seleksi. Silakan ikuti kelas wajib dan kelas praktik sesuai jadwal yang telah ditentukan. <strong class='text-brand-dark font-extrabold'>Senin 2025, 11:00WIB</strong>",
               },
               {
                 judul: "Tafkhim & Tarqiq - Angkatan 3 - 2025",
@@ -521,41 +465,29 @@
                 badgeText: "Pemilihan Kelas Praktek",
                 badgeColor: "bg-brand-yellow/30 text-yellow-700",
                 labelTipe: "Pengumuman:",
-                pesanHtml:
-                  "Selamat! Anda telah berhasil mendaftar pada program di Noora - Quran. Silakan ikuti tahapan selanjutnya.",
+                pesanHtml: "Selamat! Anda telah berhasil mendaftar pada program di Noora - Quran. Silakan ikuti tahapan selanjutnya.",
               },
             ],
           };
 
-          // Suntik Data Angka Statistik
           valTotalProgram.textContent = apiDataDashboard.statistik.total;
-          valTerdaftarProgram.textContent =
-            apiDataDashboard.statistik.terdaftar;
+          valTerdaftarProgram.textContent = apiDataDashboard.statistik.terdaftar;
           valTidakLolos.textContent = apiDataDashboard.statistik.tidakLolos;
 
-          // Suntik Data Card Status Pendaftaran
           statusListContainer.innerHTML = ""; 
 
           apiDataDashboard.statusPendaftaran.forEach((item) => {
-            let subJudulRender = item.subJudul
-              ? `<br><span class="text-[11px] font-medium text-brand-muted">${item.subJudul}</span>`
-              : "";
-
-            // Cetak HTML Card per item dari array
-            let cardElement = `
+            let subJudulRender = item.subJudul ? `<br><span class="text-[11px] font-medium text-brand-muted">${item.subJudul}</span>` : "";
+            statusListContainer.insertAdjacentHTML("beforeend", `
                 <div class="border border-slate-200 rounded-lg p-4 bg-white hover:border-brand-yellow/50 transition-colors shadow-sm">
                     <div class="flex justify-between items-start mb-2 gap-2">
                         <span class="text-sm font-bold text-brand-dark leading-tight">${item.judul} ${subJudulRender}</span>
                         <span class="${item.badgeColor} text-[10px] font-extrabold px-2 py-0.5 rounded-full text-center min-w-max tracking-wide">${item.badgeText}</span>
                     </div>
                     <span class="bg-red-400 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm inline-block mb-2">${item.labelTipe}</span>
-                    <p class="text-xs text-brand-muted leading-relaxed">
-                        ${item.pesanHtml}
-                    </p>
+                    <p class="text-xs text-brand-muted leading-relaxed">${item.pesanHtml}</p>
                 </div>
-            `;
-
-            statusListContainer.insertAdjacentHTML("beforeend", cardElement);
+            `);
           });
         }
       }
