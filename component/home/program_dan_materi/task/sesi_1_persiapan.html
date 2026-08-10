@@ -1,0 +1,56 @@
+<div class="flex items-center gap-3 mb-6">
+    <button onclick="closeTaskToHome()" class="p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-brand-dark focus:outline-none">
+        <i class="ph-bold ph-arrow-left text-lg"></i>
+    </button>
+    <h2 class="text-xl font-extrabold text-brand-dark tracking-tight">PR Mudud Pekan 1 - Pendahuluan</h2>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-200/60 overflow-hidden">
+    <div class="bg-brand-dark p-6 text-center">
+        <h3 class="text-xl font-bold text-brand-yellow tracking-wide">Panduan Pengerjaan</h3>
+    </div>
+    <div class="p-6 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="bg-slate-50 border border-slate-100 p-4 rounded-lg text-center shadow-sm">
+                <p class="text-sm font-bold text-brand-dark mb-1 flex items-center justify-center gap-2"><i class="ph-fill ph-list-numbers text-brand-muted"></i> Jumlah Soal</p>
+                <p class="text-3xl font-extrabold text-brand-yellow">7</p>
+            </div>
+            <div class="bg-slate-50 border border-slate-100 p-4 rounded-lg text-center shadow-sm">
+                <p class="text-sm font-bold text-brand-dark mb-1 flex items-center justify-center gap-2"><i class="ph-fill ph-clock text-brand-muted"></i> Waktu Pengerjaan</p>
+                <p class="text-3xl font-extrabold text-brand-yellow">5 <span class="text-sm text-brand-muted">Menit</span></p>
+            </div>
+        </div>
+        <div class="space-y-6 text-sm text-brand-muted">
+            <div class="bg-yellow-50/50 border border-yellow-100 p-5 rounded-lg">
+                <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-3"><i class="ph-fill ph-warning-circle text-yellow-600 text-lg"></i> Perhatian Sebelum Memulai</h4>
+                <ul class="list-disc pl-5 space-y-2 text-yellow-700/80">
+                    <li>Gunakan browser versi terbaru dengan koneksi internet yang stabil.</li>
+                    <li>Jangan melakukan <i>refresh</i> halaman (F5) saat sedang mengerjakan soal.</li>
+                    <li>Waktu akan terus berjalan meskipun Anda meninggalkan tab pengerjaan.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-8 text-center border-t border-slate-100 pt-8">
+            <button onclick="bukaModalMulai()" class="bg-brand-yellow hover:bg-[#F5D345] text-brand-dark font-extrabold px-10 py-3.5 rounded-lg shadow-md transition-transform hover:scale-105 active:scale-95 text-sm uppercase tracking-wide focus:outline-none">
+                Mulai Kerjakan
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL KONFIRMASI MULAI -->
+<div id="modal-mulai" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 overflow-hidden transform scale-95 transition-transform duration-300" id="modal-box-mulai">
+        <div class="p-8 text-center">
+            <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-5">
+                <i class="ph-fill ph-info text-5xl text-blue-500"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-brand-dark mb-3">Mulai Mengerjakan</h3>
+            <p class="text-sm text-brand-muted leading-relaxed mb-8">Apakah Anda yakin mengerjakan PR ini?<br>Keputusan ini bersifat permanen.</p>
+            <div class="flex gap-3">
+                <button onclick="tutupModalMulai()" class="flex-1 px-4 py-3 bg-slate-100 text-brand-dark font-bold text-sm rounded-xl hover:bg-slate-200 transition-colors">Batal</button>
+                <button onclick="pindahKeSesi2()" class="flex-1 px-4 py-3 bg-brand-yellow text-brand-dark font-extrabold text-sm rounded-xl hover:bg-[#F5D345] shadow-sm">Ya, Lanjut</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,9 +20,7 @@
       tailwind.config = {
         theme: {
           extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-            },
+            fontFamily: { sans: ["Inter", "sans-serif"] },
             colors: {
               brand: {
                 yellow: "#FEDD58",
@@ -39,19 +37,32 @@
   <body class="text-brand-dark antialiased">
     <div id="navbar-container"></div>
 
-    <main class="max-w-6xl mx-auto p-4 sm:p-6 mt-2">
-      <!-- HOME -->
-      <div id="welcome-container"></div>
-      <div id="program-materi-container"></div>
+    <main
+      id="app-content"
+      class="max-w-6xl mx-auto p-4 sm:p-6 mt-2 transition-opacity duration-300"
+    >
+      <!-- WRAPPER HOME -->
+      <div id="view-home">
+        <div id="welcome-container"></div>
+        <div id="program-materi-container"></div>
+        <div id="statistik-container"></div>
+        <div id="daftar-program-container"></div>
+        <div id="faq-container"></div>
+      </div>
 
-      <div id="statistik-container"></div>
-      <div id="daftar-program-container"></div>
-      <div id="faq-container"></div>
+      <!-- WRAPPER TASK -->
+      <div id="view-task" class="hidden">
+        <div id="task-sesi-1-container" class="hidden"></div>
+        <div id="task-sesi-2-container" class="hidden"></div>
+        <div id="task-sesi-3-container" class="hidden max-w-4xl mx-auto"></div>
+      </div>
     </main>
 
+    <!-- SCRIPT -->
     <script src="js/navbar.js"></script>
     <script src="js/home/welcome_banner.js"></script>
-    <script src="js/home/program_dan_materi.js"></script>
+    <script src="js/home/program_dan_materi/program_dan_materi.js"></script>
+    <script src="js/home/program_dan_materi/task/task.js"></script>
     <script src="js/home/statistik_dan_status_pendaftaran.js"></script>
     <script src="js/home/daftar_program_tersedia.js"></script>
     <script src="js/home/faq.js"></script>

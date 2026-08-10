@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pengerjaan Ujian - Noora Quran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ["Inter", "sans-serif"] }, colors: { brand: { yellow: "#FEDD58", dark: "#1E293B", light: "#F8FAFC", muted: "#64748B" } } } } };
+    </script>
+    <style>body { background-color: #f8fafc; }</style>
+</head>
+<body class="text-brand-dark antialiased">
+    <div id="navbar-container"></div>
+
+    <main class="max-w-6xl mx-auto p-4 sm:p-6 mt-2">
+        <h2 class="text-xl font-extrabold text-brand-dark mb-6">PR Mudud Pekan 1 - Pendahuluan</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Area Soal -->
+            <div class="lg:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200/60 p-6 flex flex-col min-h-[400px]">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-lg font-extrabold text-brand-dark">Soal No. <span class="text-brand-yellow">1</span></h3>
+                    <div class="bg-slate-50 text-brand-dark font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2 border border-slate-200 shadow-sm">
+                        <i class="ph-fill ph-timer text-brand-yellow text-xl"></i> <span class="tracking-widest">00:05:00</span>
+                    </div>
+                </div>
+
+                <div class="flex-1">
+                    <p class="text-brand-dark font-medium leading-relaxed mb-6 text-base">Waqaf dengan cara sukun mahd dapat dilakukan saat huruf terakhir pada kata tersebut berharakat:</p>
+                    
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl cursor-pointer hover:border-brand-yellow hover:bg-yellow-50/30 transition-all group">
+                            <input type="radio" name="jawaban" onchange="tandaiDijawab()" class="w-5 h-5 text-brand-yellow focus:ring-brand-yellow border-slate-300">
+                            <span class="font-semibold text-brand-dark text-sm group-hover:text-yellow-700">A. Fathah</span>
+                        </label>
+                        <label class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl cursor-pointer hover:border-brand-yellow hover:bg-yellow-50/30 transition-all group">
+                            <input type="radio" name="jawaban" onchange="tandaiDijawab()" class="w-5 h-5 text-brand-yellow focus:ring-brand-yellow border-slate-300">
+                            <span class="font-semibold text-brand-dark text-sm group-hover:text-yellow-700">B. Kasrah</span>
+                        </label>
+                        <label class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl cursor-pointer hover:border-brand-yellow hover:bg-yellow-50/30 transition-all group">
+                            <input type="radio" name="jawaban" onchange="tandaiDijawab()" class="w-5 h-5 text-brand-yellow focus:ring-brand-yellow border-slate-300">
+                            <span class="font-semibold text-brand-dark text-sm group-hover:text-yellow-700">C. Dhammah</span>
+                        </label>
+                        <label class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl cursor-pointer hover:border-brand-yellow hover:bg-yellow-50/30 transition-all group">
+                            <input type="radio" name="jawaban" onchange="tandaiDijawab()" class="w-5 h-5 text-brand-yellow focus:ring-brand-yellow border-slate-300">
+                            <span class="font-semibold text-brand-dark text-sm group-hover:text-yellow-700">D. Semua Benar</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-5 border-t border-slate-100 flex justify-between items-center">
+                    <button class="px-5 py-2.5 bg-slate-100 text-brand-dark rounded-lg hover:bg-slate-200 font-bold text-sm transition-colors flex items-center gap-2"><i class="ph-bold ph-arrow-left"></i> Sebelumnya</button>
+                    <!-- Tombol ini muncul pas dijawab -->
+                    <button onclick="cekSelesai()" class="px-6 py-2.5 bg-brand-dark text-brand-yellow rounded-lg hover:bg-slate-800 font-extrabold text-sm transition-colors shadow-md hidden animate-pulse" id="btn-selesai">Selesai Pengerjaan</button>
+                    <button class="px-5 py-2.5 bg-brand-yellow text-brand-dark rounded-lg hover:bg-[#F5D345] font-bold text-sm transition-colors shadow-sm flex items-center gap-2">Selanjutnya <i class="ph-bold ph-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Navigasi Soal Kanan -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-5 h-max sticky top-20">
+                <h4 class="font-extrabold text-brand-dark mb-4 text-xs uppercase tracking-widest text-center border-b border-slate-100 pb-3">Nomor Soal</h4>
+                <div class="grid grid-cols-4 gap-2" id="nav-soal-grid"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL DINAMIS -->
+    <div id="modal-validasi" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 overflow-hidden transform scale-95 transition-transform duration-300" id="modal-box">
+            <div class="p-8 text-center">
+                <div id="modal-icon"></div>
+                <h3 id="modal-title" class="text-xl font-extrabold text-brand-dark mb-3"></h3>
+                <p id="modal-desc" class="text-sm text-brand-muted leading-relaxed mb-8"></p>
+                <div class="flex gap-3">
+                    <button id="btn-batal" onclick="tutupModal()" class="flex-1 px-4 py-3 bg-slate-100 text-brand-dark font-bold text-sm rounded-xl hover:bg-slate-200">Batal</button>
+                    <button id="btn-konfirmasi" class="flex-1 px-4 py-3 font-extrabold text-sm rounded-xl shadow-sm"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/navbar.js"></script>
+    <script>
+        fetch("../component/navbar.html").then(res => res.text()).then(data => {
+            document.getElementById("navbar-container").innerHTML = data;
+            initNavbarLogic();
+        });
+
+        // Simulasi System Jawaban
+        const totalSoal = 7;
+        let dijawab = 0;
+
+        function renderGrid() {
+            let gridHTML = "";
+            for(let i = 1; i <= totalSoal; i++) {
+                let activeClass = (i <= dijawab) ? "bg-brand-yellow font-bold text-brand-dark border-brand-yellow" : "bg-white text-brand-muted border-slate-200";
+                gridHTML += `<button class="w-full aspect-square flex items-center justify-center rounded-lg border text-sm transition-all ${activeClass}">${i}</button>`;
+            }
+            document.getElementById("nav-soal-grid").innerHTML = gridHTML;
+        }
+        renderGrid();
+
+        function tandaiDijawab() {
+            dijawab = 1; // Karena di HTML dummy cuma ada soal 1
+            renderGrid();
+            document.getElementById("btn-selesai").classList.remove("hidden");
+        }
+
+        const modal = document.getElementById("modal-validasi");
+        const modalBox = document.getElementById("modal-box");
+
+        function cekSelesai() {
+            // Simulasi ngecek yang bolong. Buat testing, lu bisa ganti angka ini jadi 0 di console.
+            let soalBolong = totalSoal - dijawab; 
+
+            const icon = document.getElementById("modal-icon");
+            const title = document.getElementById("modal-title");
+            const desc = document.getElementById("modal-desc");
+            const btnBatal = document.getElementById("btn-batal");
+            const btnKonfirm = document.getElementById("btn-konfirmasi");
+
+            if (soalBolong > 0) {
+                // KONDISI BOLONG
+                icon.innerHTML = `<div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-5"><i class="ph-fill ph-warning-circle text-5xl text-red-500"></i></div>`;
+                title.textContent = "Peringatan!";
+                desc.innerHTML = `Terdapat <strong class="text-red-500 text-lg mx-1">${soalBolong}</strong> soal yang belum Anda kerjakan. Mohon selesaikan seluruh soal terlebih dahulu.`;
+                
+                btnBatal.classList.add("hidden"); // Ga butuh tombol batal, cuma ada tombol balik
+                btnKonfirm.className = "w-full px-4 py-3 bg-brand-dark text-brand-yellow font-extrabold text-sm rounded-xl hover:bg-slate-800 shadow-sm";
+                btnKonfirm.textContent = "Kembali ke Soal";
+                btnKonfirm.onclick = tutupModal; 
+            } else {
+                // KONDISI FULL
+                icon.innerHTML = `<div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-5"><i class="ph-fill ph-check-circle text-5xl text-green-500"></i></div>`;
+                title.textContent = "Selesaikan PR";
+                desc.innerHTML = "Apakah Anda yakin menyelesaikan PR ini?<br>Keputusan ini bersifat permanen.";
+                
+                btnBatal.classList.remove("hidden");
+                btnKonfirm.className = "flex-1 px-4 py-3 bg-brand-yellow text-brand-dark font-extrabold text-sm rounded-xl hover:bg-[#F5D345] shadow-sm";
+                btnKonfirm.textContent = "Ya, Selesaikan";
+                // PINDAH KE HALAMAN HASIL (SESI 3)
+                btnKonfirm.onclick = () => window.location.href = 'ujian_hasil.html'; 
+            }
+
+            modal.classList.remove("hidden");
+            setTimeout(() => { modal.classList.remove("opacity-0"); modalBox.classList.remove("scale-95"); }, 10);
+        }
+
+        function tutupModal() {
+            modal.classList.add("opacity-0"); modalBox.classList.add("scale-95");
+            setTimeout(() => modal.classList.add("hidden"), 300);
+        }
+    </script>
+</body>
+</html>

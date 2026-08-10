@@ -1,0 +1,38 @@
+<div class="bg-gradient-to-r from-emerald-500 to-teal-400 rounded-2xl p-8 md:p-10 shadow-lg mb-8 text-center relative overflow-hidden border border-emerald-400">
+    <div class="absolute -right-10 -bottom-10 opacity-10"><i class="ph-fill ph-trophy text-[200px] text-white"></i></div>
+    <div class="relative z-10 text-white">
+        <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm border border-white/40 shadow-inner">
+            <i class="ph-fill ph-check-circle text-5xl text-white"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-2 tracking-tight">Pengerjaan Selesai!</h2>
+        <p class="text-emerald-50 text-base font-medium">Jawaban Anda telah berhasil disimpan dengan aman.</p>
+    </div>
+</div>
+
+<!-- BOX STATISTIK NILAI (Akan diisi dinamis via JS) -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+    <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm text-center flex flex-col justify-center">
+        <p class="text-xs font-extrabold text-brand-muted uppercase tracking-widest mb-2">Jumlah Soal</p>
+        <p id="hasil-jumlah-soal" class="text-4xl font-black text-brand-dark">0</p>
+    </div>
+    <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm text-center flex flex-col justify-center">
+        <p class="text-xs font-extrabold text-brand-muted uppercase tracking-widest mb-2">Jawaban Benar</p>
+        <p id="hasil-jawaban-benar" class="text-4xl font-black text-emerald-500">0</p>
+    </div>
+    <div class="bg-brand-dark p-6 rounded-2xl border border-slate-800 shadow-md text-center relative overflow-hidden flex flex-col justify-center transform hover:-translate-y-1 transition-transform">
+        <div class="absolute top-0 left-0 w-full h-1 bg-brand-yellow"></div>
+        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-2">Nilai Akhir</p>
+        <p id="hasil-nilai-akhir" class="text-5xl font-black text-brand-yellow">0</p>
+    </div>
+</div>
+
+<h3 class="text-lg font-extrabold text-brand-dark mb-5 flex items-center gap-2"><i class="ph-fill ph-list-magnifying-glass text-brand-yellow text-xl"></i> Rincian Evaluasi</h3>
+
+<div id="hasil-rincian-container" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+</div>
+
+<div class="text-center pb-10">
+    <button onclick="closeTaskToHome()" class="bg-white border-2 border-slate-200 text-brand-dark hover:border-brand-dark hover:bg-slate-50 font-extrabold px-10 py-3.5 rounded-lg transition-all shadow-sm text-sm tracking-wide flex items-center justify-center gap-2 mx-auto">
+        <i class="ph-bold ph-house text-lg"></i> Kembali ke Dashboard
+    </button>
+</div>
