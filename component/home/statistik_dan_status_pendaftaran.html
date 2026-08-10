@@ -1,0 +1,52 @@
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    
+    <!-- KOLOM KIRI (STATISTIK) -->
+    <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 self-start">
+        
+        <div class="bg-white rounded-xl p-5 border border-slate-200/60 shadow-sm flex items-center justify-between hover:border-brand-yellow hover:shadow-md transition-all group cursor-pointer">
+            <div>
+                <h3 class="text-[11px] font-bold text-brand-dark uppercase tracking-wider">Total Program</h3>
+                <p class="text-[10px] text-brand-muted mb-3">Program yang kamu ikuti</p>
+                <div class="text-3xl font-extrabold text-brand-dark"><span id="val-total-program">0</span> <span class="text-sm font-medium text-brand-muted">Program</span></div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i class="ph-fill ph-floppy-disk text-2xl text-blue-500"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 border border-slate-200/60 shadow-sm flex items-center justify-between hover:border-brand-yellow hover:shadow-md transition-all group cursor-pointer">
+            <div>
+                <h3 class="text-[11px] font-bold text-brand-dark uppercase tracking-wider">Terdaftar Program</h3>
+                <p class="text-[10px] text-brand-muted mb-3">Dalam proses seleksi / selesai program</p>
+                <div class="text-3xl font-extrabold text-brand-dark"><span id="val-terdaftar-program">0</span> <span class="text-sm font-medium text-brand-muted">Program</span></div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-brand-yellow/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i class="ph-bold ph-check text-2xl text-yellow-700"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 border border-slate-200/60 shadow-sm flex items-center justify-between hover:border-red-300 hover:shadow-md transition-all group cursor-pointer">
+            <div>
+                <h3 class="text-[11px] font-bold text-brand-dark uppercase tracking-wider">Tidak Lolos Program</h3>
+                <p class="text-[10px] text-brand-muted mb-3">Pendaftaranmu gagal / ditolak</p>
+                <div class="text-3xl font-extrabold text-brand-dark"><span id="val-tidak-lolos">0</span> <span class="text-sm font-medium text-brand-muted">Program</span></div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i class="ph-bold ph-x text-2xl text-red-500"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- KOLOM KANAN (STATUS PENDAFTARAN) -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 flex flex-col h-full overflow-hidden">
+        <div class="p-5 border-b border-slate-100 bg-slate-50/50">
+            <h3 class="text-sm font-extrabold text-brand-dark uppercase tracking-wide">Status Pendaftaranmu</h3>
+            <p class="text-[11px] text-brand-muted mt-0.5">Lihat Status pendaftaranmu disini</p>
+        </div>
+        
+        <div id="status-list-container" class="p-4 flex flex-col gap-3 overflow-y-auto max-h-[300px] custom-scrollbar">
+            <p class="text-center text-xs text-brand-muted py-4">Memuat data status...</p>
+        </div>
+    </div>
+</div>
