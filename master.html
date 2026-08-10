@@ -1,106 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Noora Quran - Dashboard</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            background-color: #F8FAFC;
-        }
+      body {
+        background-color: #f8fafc;
+      }
     </style>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'], 
-                    },
-                    colors: {
-                        brand: {
-                            yellow: '#FEDD58', 
-                            dark: '#1E293B',   
-                            light: '#F8FAFC',  
-                            muted: '#64748B'   
-                        }
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                yellow: "#FEDD58",
+                dark: "#1E293B",
+                light: "#F8FAFC",
+                muted: "#64748B",
+              },
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="text-brand-dark antialiased">
+  </head>
+  <body class="text-brand-dark antialiased">
     <div id="navbar-container"></div>
 
-    <main class="max-w-6xl mx-auto p-6 mt-4">
-
-    </main>
+    <main id="main-content" class="max-w-6xl mx-auto p-6 mt-4"></main>
 
     <script>
-        fetch('component/navbar.html')
-            .then(response => {
-                if (!response.ok) throw new Error('File navbar.html nggak ketemu, cek path foldernya');
-                return response.text();
-            })
-            .then(data => {
-                document.getElementById('navbar-container').innerHTML = data;
-                initNavbarLogic();
-            })
-            .catch(error => console.error(error));
+      // FETCHING COMPONENT KE MASTER
+      fetch("component/navbar.html")
+        .then((response) => {
+          if (!response.ok)
+            throw new Error(
+              "File navbar.html nggak ketemu, cek path foldernya",
+            );
+          return response.text();
+        })
+        .then((data) => {
+          document.getElementById("navbar-container").innerHTML = data;
+          initNavbarLogic();
+        })
+        .catch((error) => console.error(error));
 
-        function initNavbarLogic() {
-            // LOGIC DROPDOWN PROFIL
-            const profileBtn = document.getElementById('profile-btn');
-            const profileDropdown = document.getElementById('profile-dropdown');
-            const profileCaret = document.getElementById('profile-caret');
+      fetch("component/home.html")
+        .then((response) => {
+          if (!response.ok) throw new Error("File home.html nggak ketemu");
+          return response.text();
+        })
+        .then((data) => {
+          document.getElementById("main-content").innerHTML = data;
+        })
+        .catch((error) => console.error(error));
 
-            if (profileBtn && profileDropdown && profileCaret) {
-                // Kalau tombol profil diklik
-                profileBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); 
-                    profileDropdown.classList.toggle('hidden');
-                    profileCaret.classList.toggle('rotate-180');
-                });
+      function initNavbarLogic() {
+        // LOGIC MODE MOBILE
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const closeSidebarBtn = document.getElementById("close-sidebar-btn");
+        const mobileSidebar = document.getElementById("mobile-sidebar");
+        const mobileOverlay = document.getElementById("mobile-overlay");
+        const mobileMenuLinks = document.querySelectorAll("#mobile-nav-menu a");
 
-                // Kalau user klik di luar area dropdown
-                window.addEventListener('click', (e) => {
-                    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-                        profileDropdown.classList.add('hidden');
-                        profileCaret.classList.remove('rotate-180');
-                    }
-                });
-            }
+        if (mobileMenuLinks.length > 0) {
+          mobileMenuLinks.forEach((link) => {
+            link.addEventListener("click", function (e) {
+              e.preventDefault();
 
-            // LOGIC PILL MENU ACTIVE/INACTIVE
-            const navMenuLinks = document.querySelectorAll('#nav-menu a');
+              mobileMenuLinks.forEach((item) => {
+                item.className =
+                  "flex items-center gap-3 px-4 py-3 text-brand-muted hover:text-brand-dark hover:bg-slate-50 font-medium text-sm rounded-lg border border-transparent transition-all";
 
-            navMenuLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault(); 
+                const icon = item.querySelector("i");
+                if (icon) {
+                  icon.className = icon.className
+                    .replace("ph-fill", "ph")
+                    .replace("text-brand-yellow", "");
+                }
+              });
 
-                    // Hapus mode "Active" dari semua menu
-                    navMenuLinks.forEach(item => {
-                        item.className = "flex items-center gap-2 px-4 py-1.5 text-brand-muted hover:text-brand-dark hover:bg-white/50 font-medium text-sm rounded-md border border-transparent transition-all";
-                        
-                        const icon = item.querySelector('i');
-                        if(icon) {
-                            icon.className = icon.className.replace('ph-fill', 'ph').replace('text-brand-yellow', '');
-                        }
-                    });
+              this.className =
+                "flex items-center gap-3 px-4 py-3 bg-brand-yellow/20 text-brand-dark font-bold text-sm rounded-lg border border-brand-yellow/50 transition-all mobile-active-tab";
 
-                    // Tambahkan mode "Active" ke menu yang diklik
-                    this.className = "flex items-center gap-2 px-4 py-1.5 bg-white text-brand-dark font-semibold text-sm rounded-md shadow-sm border border-slate-200/50 transition-all active-tab";
-                    
-                    const activeIcon = this.querySelector('i');
-                    if(activeIcon) {
-                        activeIcon.className = activeIcon.className.replace('ph', 'ph-fill') + ' text-brand-yellow';
-                    }
-                });
+              const activeIcon = this.querySelector("i");
+              if (activeIcon) {
+                activeIcon.className =
+                  activeIcon.className.replace("ph", "ph-fill") +
+                  " text-brand-yellow";
+              }
             });
+          });
         }
+        if (mobileMenuBtn && mobileSidebar) {
+          mobileMenuBtn.addEventListener("click", () => {
+            mobileOverlay.classList.remove("hidden");
+
+            setTimeout(() => {
+              mobileOverlay.classList.remove("opacity-0");
+              mobileSidebar.classList.remove("-translate-x-full");
+            }, 10);
+          });
+
+          const closeSidebar = () => {
+            mobileSidebar.classList.add("-translate-x-full");
+            mobileOverlay.classList.add("opacity-0");
+
+            setTimeout(() => {
+              mobileOverlay.classList.add("hidden");
+            }, 300);
+          };
+
+          closeSidebarBtn.addEventListener("click", closeSidebar);
+          mobileOverlay.addEventListener("click", closeSidebar);
+        }
+
+        // LOGIC DROPDOWN PROFIL
+        const profileBtn = document.getElementById("profile-btn");
+        const profileDropdown = document.getElementById("profile-dropdown");
+        const profileCaret = document.getElementById("profile-caret");
+
+        if (profileBtn && profileDropdown && profileCaret) {
+          // Kalau tombol profil diklik
+          profileBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle("hidden");
+            profileCaret.classList.toggle("rotate-180");
+          });
+
+          // Kalau user klik di luar area dropdown
+          window.addEventListener("click", (e) => {
+            if (
+              !profileBtn.contains(e.target) &&
+              !profileDropdown.contains(e.target)
+            ) {
+              profileDropdown.classList.add("hidden");
+              profileCaret.classList.remove("rotate-180");
+            }
+          });
+        }
+
+        // LOGIC PILL MENU ACTIVE/INACTIVE
+        const navMenuLinks = document.querySelectorAll("#nav-menu a");
+
+        navMenuLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Hapus mode "Active" dari semua menu
+            navMenuLinks.forEach((item) => {
+              item.className =
+                "flex items-center gap-2 px-4 py-1.5 text-brand-muted hover:text-brand-dark hover:bg-white/50 font-medium text-sm rounded-md border border-transparent transition-all";
+
+              const icon = item.querySelector("i");
+              if (icon) {
+                icon.className = icon.className
+                  .replace("ph-fill", "ph")
+                  .replace("text-brand-yellow", "");
+              }
+            });
+
+            // Tambahkan mode "Active" ke menu yang diklik
+            this.className =
+              "flex items-center gap-2 px-4 py-1.5 bg-white text-brand-dark font-semibold text-sm rounded-md shadow-sm border border-slate-200/50 transition-all active-tab";
+
+            const activeIcon = this.querySelector("i");
+            if (activeIcon) {
+              activeIcon.className =
+                activeIcon.className.replace("ph", "ph-fill") +
+                " text-brand-yellow";
+            }
+          });
+        });
+      }
     </script>
+  </body>
 </html>
