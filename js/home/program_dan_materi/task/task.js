@@ -1,11 +1,9 @@
-// js/task/task.js
-
 const totalSoal = 7;
 let currentSoal = 1;
-let jawabanUser = {}; // Track jawaban -> { 1: 'A', 2: 'C' }
+let jawabanUser = {}; 
 
 let timerInterval;
-let timeLeft = 5 * 60; // Waktu 5 menit (dalam detik)
+let timeLeft = 5 * 60; 
 
 // DATA SIMULASI SOAL (Ditambahin Kunci Jawaban "jawabanBenar")
 const dummySoal = [
@@ -18,21 +16,19 @@ const dummySoal = [
     { teks: "Huruf Isti'la yang wajib dibaca tebal (Tafkhim) di antaranya adalah...", opsi: { A: "Kha (خ)", B: "Sin (س)", C: "Lam (ل)", D: "Ta (ت)" }, jawabanBenar: "A" }
 ];
 
-// =======================
 // NAVIGASI SPA & GANTI SESI
-// =======================
 function openTask(status) {
-    document.getElementById("view-home").classList.add("hidden");
-    document.getElementById("view-task").classList.remove("hidden");
+    // 1. RENDER DOM TASK (Hancurkan DOM Home)
+    window.renderTaskView();
 
+    // 2. Reset semua sesi task jadi hidden dulu
     document.getElementById("task-sesi-1-container").classList.add("hidden");
     document.getElementById("task-sesi-2-container").classList.add("hidden");
     document.getElementById("task-sesi-3-container").classList.add("hidden");
 
     if (status === 'selesai') {
-        // Asumsi user udah ngerjain (buat testing, kita isi bener semua aja atau render random)
+        // Render data hasil dan tampilkan
         if(Object.keys(jawabanUser).length === 0) {
-            // Simulasi data biar kalau langsung klik "Selesai" dari Home ga kosong melompong
             jawabanUser = { 1: 'D', 2: 'B', 3: 'A', 4: 'C', 5: 'A', 6: 'B', 7: 'A' };
         }
         renderHasilAkhir();
@@ -43,21 +39,23 @@ function openTask(status) {
         currentSoal = 1;
         clearInterval(timerInterval);
 
+        // Tampilkan persiapan ujian
         document.getElementById("task-sesi-1-container").classList.remove("hidden");
     }
     window.scrollTo(0,0);
 }
 
 function closeTaskToHome() {
+    // Matikan timer kalau kabur
     clearInterval(timerInterval);
-    document.getElementById("view-task").classList.add("hidden");
-    document.getElementById("view-home").classList.remove("hidden");
+    
+    // RENDER ULANG DOM HOME (Hancurkan DOM Task)
+    window.renderHomeView();
+    
     window.scrollTo(0,0);
 }
 
-// =======================
 // SESI 1: MODAL MULAI
-// =======================
 function bukaModalMulai() {
     const modal = document.getElementById("modal-mulai");
     const modalBox = document.getElementById("modal-box-mulai");
@@ -80,9 +78,7 @@ function pindahKeSesi2() {
     startTimer();
 }
 
-// =======================
 // SESI 2: TIMER & SOAL
-// =======================
 function startTimer() {
     clearInterval(timerInterval);
     timeLeft = 5 * 60; // 5 Menit
@@ -167,9 +163,7 @@ function renderGrid() {
     grid.innerHTML = gridHTML;
 }
 
-// =======================
 // VALIDASI & PINDAH KE HASIL
-// =======================
 function cekSelesai() {
     let soalBolong = totalSoal - Object.keys(jawabanUser).length; 
 
@@ -224,9 +218,7 @@ function pindahKeSesi3() {
     window.scrollTo(0,0);
 }
 
-// =======================
 // SESI 3: RENDER EVALUASI AKHIR
-// =======================
 function renderHasilAkhir() {
     let jumlahBenar = 0;
     let htmlRincian = "";
