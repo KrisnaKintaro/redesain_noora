@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Noora Quran - Dashboard</title>
 
+    <!-- 1. FAVICON -->
+    <link rel="icon" type="image/png" href="asset/logo_noora.png" />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- LIBRARY UNDUH PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      body {
-        background-color: #f8fafc;
-      }
-    </style>
+
     <script>
       tailwind.config = {
         theme: {
@@ -35,12 +36,54 @@
         },
       };
     </script>
+
+    <!-- CUSTOM UX CSS -->
+    <style>
+      /* Warna Background Dasar */
+      body {
+        background-color: #f8fafc;
+      }
+
+      /* 2. CUSTOM SCROLLBAR (Biar Elegan & Modern) */
+      ::-webkit-scrollbar {
+        width: 6px; /* Lebar scrollbar vertikal */
+        height: 6px; /* Tinggi scrollbar horizontal (kalau ada tabel panjang) */
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1; /* Warna abu-abu soft (slate-300) */
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #fedd58; /* Berubah jadi kuning pas disentuh cursor */
+      }
+
+      /* 3. CUSTOM TEXT SELECTION (Warna highlight teks) */
+      ::selection {
+        background-color: #fedd58;
+        color: #1e293b;
+      }
+      ::-moz-selection {
+        background-color: #fedd58;
+        color: #1e293b;
+      }
+
+      /* 4. SMOOTH SCROLL & HILANGKAN TAP HIGHLIGHT BIRU DI MOBILE */
+      html {
+        scroll-behavior: smooth;
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
   </head>
   <body class="text-brand-dark antialiased">
     <div id="navbar-container" class="sticky top-0 z-50"></div>
 
-    <main id="app-content" class="max-w-6xl mx-auto p-4 sm:p-6 mt-2 transition-opacity duration-300">
-    </main>
+    <main
+      id="app-content"
+      class="max-w-6xl mx-auto p-4 sm:p-6 mt-2 transition-opacity duration-300"
+    ></main>
 
     <script src="js/navbar.js"></script>
     <script src="js/home/welcome_banner.js"></script>
