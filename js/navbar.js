@@ -117,3 +117,39 @@ function initNavbarLogic() {
         });
     }
 }
+
+window.bukaModalLogout = function() {
+    const profileDropdown = document.getElementById("profile-dropdown");
+    const profileCaret = document.getElementById("profile-caret");
+    if(profileDropdown) profileDropdown.classList.add("hidden");
+    if(profileCaret) profileCaret.classList.remove("rotate-180");
+
+    const modal = document.getElementById("modal-logout");
+    const modalBox = document.getElementById("modal-box-logout");
+    if(!modal) return;
+    
+    modal.classList.remove("hidden");
+    setTimeout(() => { 
+        modal.classList.remove("opacity-0"); 
+        modalBox.classList.remove("scale-95"); 
+    }, 10);
+};
+
+window.tutupModalLogout = function() {
+    const modal = document.getElementById("modal-logout");
+    const modalBox = document.getElementById("modal-box-logout");
+    if(!modal) return;
+    
+    modal.classList.add("opacity-0"); 
+    modalBox.classList.add("scale-95");
+    setTimeout(() => modal.classList.add("hidden"), 300);
+};
+
+window.prosesLogout = function() {
+    window.tutupModalLogout();
+    
+    setTimeout(() => {
+        alert("Berhasil keluar! Sampai jumpa lagi.");
+        window.location.reload(); 
+    }, 300);
+};
