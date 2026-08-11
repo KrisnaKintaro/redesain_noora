@@ -52,6 +52,10 @@ function initProgramMateriLogic() {
         dropdownMenu.innerHTML = "";
         apiDataProgram.forEach((program) => {
             const btn = document.createElement("button");
+            
+            // TAMBAHIN BARIS INI: Atribut data-id buat auto select
+            btn.setAttribute("data-id", program.id); 
+
             btn.className = "w-full text-left px-4 py-3 text-sm hover:bg-slate-50 border-b border-slate-100 transition-colors";
             btn.innerHTML = `<span class="block font-bold text-brand-dark">${program.name}</span><span class="text-xs text-brand-muted">${program.desc}</span>`;
             
@@ -208,3 +212,12 @@ function initProgramMateriLogic() {
         });
     }
 }
+
+window.selectProgramById = function(programId) {
+    const targetBtn = document.querySelector(`#dropdown-program-menu button[data-id="${programId}"]`);
+    if(targetBtn) {
+        setTimeout(() => {
+            targetBtn.click();
+        }, 150); // Jeda dikit biar render DOM-nya kelar dulu
+    }
+};
