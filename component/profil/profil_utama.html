@@ -1,0 +1,83 @@
+<div class="mb-6 mt-2">
+    <h2 class="text-2xl font-extrabold text-brand-dark uppercase tracking-widest mb-1">PROFIL</h2>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-6 mb-10">
+    <!-- Kolom Kiri: Kartu Identitas -->
+    <div class="w-full lg:w-1/3 flex flex-col gap-6">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-6 flex flex-col h-full">
+            <h3 class="text-lg font-extrabold text-brand-dark mb-6">Data Profil</h3>
+            
+            <div class="flex flex-col items-center mb-6">
+                <!-- Avatar Dummy -->
+                <div class="w-24 h-24 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white text-4xl mb-4 shadow-inner border-4 border-slate-50">
+                    <i class="ph-fill ph-user"></i>
+                </div>
+                <h4 class="text-xl font-black text-brand-dark tracking-tight">Irma damayanti</h4>
+                <p class="text-sm font-bold text-brand-muted mt-1">(Angkatan 3)</p>
+                <p class="text-xs text-slate-400 mt-1">777irmadamayanti@gmail.com</p>
+            </div>
+
+            <div class="border-t border-slate-100 pt-4 flex-1">
+                <div class="flex items-center justify-between py-3 border-b border-slate-50">
+                    <span class="text-sm font-bold text-brand-dark flex items-center gap-2"><i class="ph-fill ph-identification-card text-brand-muted"></i> NIP :</span>
+                    <span class="text-sm text-brand-muted font-medium">NQI-0324-001</span>
+                </div>
+                <div class="flex items-center justify-between py-3 border-b border-slate-50">
+                    <span class="text-sm font-bold text-brand-dark flex items-center gap-2"><i class="ph-fill ph-phone text-brand-muted"></i> No HP :</span>
+                    <span class="text-sm text-brand-muted font-medium">6281342474947</span>
+                </div>
+                <div class="flex items-start justify-between py-3">
+                    <span class="text-sm font-bold text-brand-dark flex items-center gap-2 w-1/3"><i class="ph-fill ph-envelope-simple text-brand-muted"></i> Email :</span>
+                    <span class="text-sm text-brand-muted font-medium break-all text-right w-2/3">777irmadamayanti@gmail.com</span>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-col gap-3">
+                <button onclick="window.renderUpdateProfil()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-full shadow-sm transition-colors flex items-center justify-center gap-2 focus:outline-none">
+                    <i class="ph-bold ph-pencil-simple"></i> Update Profil
+                </button>
+                <button onclick="window.renderUpdatePassword()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-full shadow-sm transition-colors flex items-center justify-center gap-2 focus:outline-none">
+                    <i class="ph-bold ph-lock-key"></i> Update Password
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kolom Kanan: Data Pendukung -->
+    <div class="w-full lg:w-2/3">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-6 md:p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-extrabold text-brand-dark">Data Pendukung</h3>
+                <span class="bg-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded shadow-sm tracking-wide">Data Sudah Lengkap</span>
+            </div>
+
+            <div class="bg-blue-600 text-white text-sm font-bold py-2.5 px-4 rounded-full text-center mb-6 shadow-sm">
+                Data Pribadi
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <tbody>
+                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                            <td class="py-4 px-2 font-semibold text-brand-muted w-1/3">Tempat Lahir</td>
+                            <td class="py-4 px-2 font-medium text-brand-dark">Palopo</td>
+                        </tr>
+                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                            <td class="py-4 px-2 font-semibold text-brand-muted">Tanggal Lahir</td>
+                            <td class="py-4 px-2 font-medium text-brand-dark">10 April 1986</td>
+                        </tr>
+                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                            <td class="py-4 px-2 font-semibold text-brand-muted">Negara Domisili</td>
+                            <td class="py-4 px-2 font-medium text-brand-dark">Indonesia</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="py-4 px-2 font-semibold text-brand-muted">Kota / Kabupaten Domisili</td>
+                            <td class="py-4 px-2 font-medium text-brand-dark">Timika</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
