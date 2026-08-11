@@ -1,0 +1,74 @@
+<div class="bg-white rounded-xl shadow-sm border border-slate-200/60 overflow-hidden mb-10">
+    <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50">
+        <div class="flex items-center gap-2 text-sm text-brand-muted font-medium">
+            <span>Show</span>
+            <!-- BISA GANTI JUMLAH BARIS -->
+            <select id="dt-show-entries" onchange="window.dtChangeEntries()" class="border border-slate-300 rounded px-2 py-1 bg-white focus:outline-none focus:border-brand-yellow">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+            <span>entries</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-brand-muted font-medium w-full sm:w-auto">
+            <span>Search:</span>
+            <!-- FITUR SEARCH -->
+            <input type="text" id="dt-search" onkeyup="window.dtSearch()" class="border border-slate-300 rounded px-3 py-1.5 w-full sm:w-64 focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow" placeholder="Cari program atau status...">
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-white border-b border-slate-200 text-xs text-brand-dark uppercase tracking-wider select-none">
+                    <!-- FITUR SORTING DI HEADER -->
+                    <th onclick="window.dtSort('id')" class="py-4 px-5 font-extrabold w-16 hover:bg-slate-50 cursor-pointer">No. <i id="sort-icon-id" class="ph ph-caret-up-down ml-1 text-slate-400"></i></th>
+                    <th onclick="window.dtSort('program')" class="py-4 px-5 font-extrabold hover:bg-slate-50 cursor-pointer">Program <i id="sort-icon-program" class="ph ph-caret-up-down ml-1 text-slate-400"></i></th>
+                    <th onclick="window.dtSort('status')" class="py-4 px-5 font-extrabold w-48 hover:bg-slate-50 cursor-pointer">Status <i id="sort-icon-status" class="ph ph-caret-up-down ml-1 text-slate-400"></i></th>
+                    <th id="th-aksi" class="py-4 px-5 font-extrabold w-64 text-center cursor-default">Rapor & Sertifikat</th>
+                </tr>
+            </thead>
+            <tbody id="table-body-dokumen" class="text-sm">
+                <!-- Baris tabel diisi via JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="p-5 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50">
+        <p class="text-xs text-brand-muted font-medium" id="table-info-entries">Showing 0 entries</p>
+        <!-- WADAH PAGINATION DINAMIS -->
+        <div id="dt-pagination" class="flex rounded-md border border-slate-300 overflow-hidden shadow-sm">
+        </div>
+    </div>
+</div>
+
+<!-- MODAL LIHAT NILAI (TETAP SAMA SEPERTI SEBELUMNYA) -->
+<div id="modal-nilai" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div class="bg-slate-50 rounded-2xl shadow-2xl max-w-3xl w-full mx-4 overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]" id="modal-box-nilai">
+        <div class="bg-white p-5 border-b border-slate-200 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+            <div>
+                <h3 class="text-lg font-extrabold text-brand-dark tracking-wide">Daftar Nilai</h3>
+                <p id="modal-nilai-program" class="text-xs font-medium text-brand-muted mt-0.5"></p>
+            </div>
+            <button onclick="window.tutupModalNilai()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-brand-muted hover:bg-red-100 hover:text-red-500 transition-colors focus:outline-none">
+                <i class="ph-bold ph-x"></i>
+            </button>
+        </div>
+        <div class="p-6 md:p-8 overflow-y-auto custom-scrollbar">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200/60 text-center flex flex-col justify-center hover:border-brand-yellow transition-colors"><p class="text-[11px] font-bold text-brand-muted mb-2">Absensi</p><p id="val-absensi" class="text-2xl font-black text-brand-dark"></p></div>
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200/60 text-center flex flex-col justify-center hover:border-brand-yellow transition-colors"><p class="text-[11px] font-bold text-brand-muted mb-2">Nilai KP</p><p id="val-nakp" class="text-2xl font-black text-brand-dark"></p></div>
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200/60 text-center flex flex-col justify-center hover:border-brand-yellow transition-colors"><p class="text-[11px] font-bold text-brand-muted mb-2">PR</p><p id="val-pr" class="text-2xl font-black text-brand-dark"></p></div>
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200/60 text-center flex flex-col justify-center hover:border-brand-yellow transition-colors"><p class="text-[11px] font-bold text-brand-muted mb-2">UTP Teori</p><p id="val-utpt" class="text-2xl font-black text-brand-dark"></p></div>
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200/60 text-center flex flex-col justify-center hover:border-brand-yellow transition-colors"><p class="text-[11px] font-bold text-brand-muted mb-2">UTP Praktik</p><p id="val-utpp" class="text-2xl font-black text-brand-dark"></p></div>
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200/60 text-center flex flex-col justify-center hover:border-brand-yellow transition-colors"><p class="text-[11px] font-bold text-brand-muted mb-2">UAP Teori</p><p id="val-uapt" class="text-2xl font-black text-brand-dark"></p></div>
+                <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-slate-200/60 text-center flex flex-col justify-center hover:border-brand-yellow transition-colors sm:col-span-2"><p class="text-[11px] font-bold text-brand-muted mb-2">UAP Praktik</p><p id="val-uapp" class="text-2xl font-black text-brand-dark"></p></div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200/60 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-brand-yellow"></div>
+                <p class="text-xs font-extrabold text-brand-muted uppercase tracking-widest mb-2">Nilai Akhir Keseluruhan</p>
+                <p id="val-akhir" class="text-5xl font-black text-brand-dark tracking-tight"></p>
+            </div>
+        </div>
+    </div>
+</div>
