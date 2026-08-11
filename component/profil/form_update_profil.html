@@ -1,0 +1,51 @@
+<div class="mb-6 mt-2">
+    <h2 class="text-2xl font-extrabold text-brand-dark uppercase tracking-widest mb-4">UPDATE PROFILE</h2>
+    <button onclick="window.navigateTo('Profil Saya')" class="flex items-center gap-2 text-sm font-bold text-brand-dark bg-white border border-slate-200 px-5 py-2.5 rounded-lg hover:bg-slate-50 transition-colors shadow-sm focus:outline-none w-max">
+        <i class="ph-bold ph-arrow-left"></i> Kembali
+    </button>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-6 md:p-8 mb-10">
+    <h3 class="text-xl font-extrabold text-brand-dark mb-6">Biodata <span class="text-red-500 text-sm font-medium normal-case tracking-normal">*) Form wajib diisi lengkap.</span></h3>
+
+    <div class="bg-blue-600 text-white text-sm font-bold py-2.5 px-4 rounded-full text-center mb-8 shadow-sm">
+        Data Pribadi <span class="text-red-300">*</span>
+    </div>
+
+    <form class="space-y-5" onsubmit="event.preventDefault(); alert('Profil Berhasil Diupdate!'); window.navigateTo('Profil Saya');">
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <label class="w-full md:w-1/3 text-sm font-semibold text-brand-muted">Nama Lengkap <span class="text-red-500">*</span></label>
+            <input type="text" value="Irma damayanti" required class="w-full md:w-2/3 border border-slate-300 rounded-lg px-4 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow">
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <label class="w-full md:w-1/3 text-sm font-semibold text-brand-muted">Tempat Lahir <span class="text-red-500">*</span></label>
+            <input type="text" value="Palopo" required class="w-full md:w-2/3 border border-slate-300 rounded-lg px-4 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow">
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <label class="w-full md:w-1/3 text-sm font-semibold text-brand-muted">Tanggal Lahir <span class="text-red-500">*</span></label>
+            <input type="date" value="1986-04-10" required class="w-full md:w-2/3 border border-slate-300 rounded-lg px-4 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow">
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <label class="w-full md:w-1/3 text-sm font-semibold text-brand-muted">No HP / Whatsapp Aktif <span class="text-red-500">*</span></label>
+            <input type="tel" value="6281342474947" required class="w-full md:w-2/3 border border-slate-300 rounded-lg px-4 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow">
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <label class="w-full md:w-1/3 text-sm font-semibold text-brand-muted">Email <span class="text-red-500">*</span></label>
+            <input type="email" value="777irmadamayanti@gmail.com" required class="w-full md:w-2/3 border border-slate-300 rounded-lg px-4 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow bg-slate-50" readonly>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <label class="w-full md:w-1/3 text-sm font-semibold text-brand-muted">Negara Domisili <span class="text-red-500">*</span></label>
+            <input type="text" value="Indonesia" required class="w-full md:w-2/3 border border-slate-300 rounded-lg px-4 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow">
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <label class="w-full md:w-1/3 text-sm font-semibold text-brand-muted">Kota / Kabupaten Domisili <span class="text-red-500">*</span></label>
+            <input type="text" value="Timika" required class="w-full md:w-2/3 border border-slate-300 rounded-lg px-4 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow">
+        </div>
+
+        <div class="pt-6 flex justify-end">
+            <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 px-6 rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2 focus:outline-none">
+                <i class="ph-fill ph-floppy-disk"></i> Simpan Data Pribadi
+            </button>
+        </div>
+    </form>
+</div>

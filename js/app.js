@@ -36,6 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
       res.text(),
     ),
     fetch("component/sertifikatku/datatable.html").then((res) => res.text()),
+    fetch("component/profil/profil_utama.html").then((res) => res.text()),
+    fetch("component/profil/form_update_profil.html").then((res) => res.text()),
+    fetch("component/profil/form_update_password.html").then((res) =>
+      res.text(),
+    ),
   ])
     .then(
       ([
@@ -54,6 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
         tabSerti,
         sumSerti,
         tableSerti,
+        profilUtama,
+        formUpdateProfil,
+        formUpdatePassword,
       ]) => {
         window.AppTemplates = {
           nav,
@@ -70,7 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
           programku,
           tabSerti,
           sumSerti,
-          tableSerti, 
+          tableSerti,
+          profilUtama,
+          formUpdateProfil,
+          formUpdatePassword, // Simpan ke global
         };
 
         document.getElementById("navbar-container").innerHTML =
@@ -84,20 +95,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.navigateTo = function(pageName) {
     const appContent = document.getElementById("app-content");
+    
+    // Reset status navbar aktif kalo yang di-klik bukan menu utama (contoh: Profil Saya)
+    if(window.updateNavbarActive) window.updateNavbarActive(pageName);
+
     if (pageName === "Home") {
         window.renderHomeView();
     } else if (pageName === "Programku") {
         appContent.innerHTML = window.AppTemplates.programku;
         if(window.initProgramkuLogic) window.initProgramkuLogic();
     } else if (pageName === "Sertifikat ku") {
-        
-        appContent.innerHTML = 
-            window.AppTemplates.tabSerti + 
-            window.AppTemplates.sumSerti + 
-            window.AppTemplates.tableSerti;
-        
+        appContent.innerHTML = window.AppTemplates.tabSerti + window.AppTemplates.sumSerti + window.AppTemplates.tableSerti;
         if(window.initSummaryHeader) window.initSummaryHeader();
-        if(window.switchTabSertifikat) window.switchTabSertifikat('rapor'); 
+        if(window.switchTabSertifikat) window.switchTabSertifikat('rapor');
+    } else if (pageName === "Profil Saya") {
+        appContent.innerHTML = window.AppTemplates.profilUtama;
     }
 };
 
